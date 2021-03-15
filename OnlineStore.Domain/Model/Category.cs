@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameStore.Domain.Model;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -7,14 +8,12 @@ using System.Threading.Tasks;
 
 namespace OnlineStore.Domain.Model
 {
-    public partial class Category
+    public class Category : BaseEntity
     {
         public Category()
         {
 
         }
-        [Required]
-        public int CategoryId { get; set; }
         [Display(Name = "Category Name")]
         [Required]
         public string CategoryName { get; set; }

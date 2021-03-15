@@ -1,4 +1,5 @@
-﻿using OnlineStore.Domain.Identity;
+﻿using GameStore.Domain.Model;
+using OnlineStore.Domain.Identity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -8,14 +9,12 @@ using System.Threading.Tasks;
 
 namespace OnlineStore.Domain.Model
 {
-    public partial class Review
+    public class Review : BaseEntity
     {
         public Review()
         {
 
         }
-        [Required]
-        public int ReviewId { get; set; }
         [Required]
         public int ProductId { get; set; }
         [Required]

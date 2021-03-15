@@ -45,8 +45,8 @@ namespace OnlineStore.WebUI.Controllers
                     var query = from product in context.Products
                                 where product.CategoryId == categoryid
                                 join category in context.Categories
-                                  on product.CategoryId equals category.CategoryId
-                                select new ProductDTO { ProductId = product.ProductId, ProductName = product.ProductName, CategoryId = product.CategoryId, CategoryName = category.CategoryName, Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount, UserId = product.UserId };
+                                  on product.CategoryId equals category.Id
+                                select new ProductDTO { Id = product.Id, ProductName = product.ProductName, CategoryId = product.CategoryId, CategoryName = category.CategoryName, Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount, UserId = product.UserId };
                     list = query.ToList();
                     System.Web.HttpContext.Current.Cache["ProductList" + categoryid] = list;
                 }
@@ -65,8 +65,8 @@ namespace OnlineStore.WebUI.Controllers
                 {
                     var query = from product in context.Products
                                 join category in context.Categories
-                                  on product.CategoryId equals category.CategoryId
-                                select new ProductDTO { ProductId = product.ProductId, ProductName = product.ProductName, CategoryId = product.CategoryId, CategoryName = category.CategoryName, Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount, UserId = product.UserId };
+                                  on product.CategoryId equals category.Id
+                                select new ProductDTO { Id = product.Id, ProductName = product.ProductName, CategoryId = product.CategoryId, CategoryName = category.CategoryName, Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount, UserId = product.UserId };
                     list = query.ToList();
                 }
                 else
@@ -74,8 +74,8 @@ namespace OnlineStore.WebUI.Controllers
                     var query = from product in context.Products
                                 where product.ProductName.ToLower().Contains(productname.ToLower())
                                 join category in context.Categories
-                                  on product.CategoryId equals category.CategoryId
-                                select new ProductDTO { ProductId = product.ProductId, ProductName = product.ProductName, CategoryId = product.CategoryId, CategoryName = category.CategoryName, Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount, UserId = product.UserId };
+                                  on product.CategoryId equals category.Id
+                                select new ProductDTO { Id = product.Id, ProductName = product.ProductName, CategoryId = product.CategoryId, CategoryName = category.CategoryName, Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount, UserId = product.UserId };
                     list = query.ToList();
                 }
             }
@@ -89,10 +89,10 @@ namespace OnlineStore.WebUI.Controllers
             using (OnlineStoreDBContext context = new OnlineStoreDBContext())
             {
                 var query = from product in context.Products
-                            where product.ProductId == id
+                            where product.Id == id
                             join category in context.Categories
-                              on product.CategoryId equals category.CategoryId
-                            select new ProductDTO { ProductId = product.ProductId, ProductName = product.ProductName, CategoryId = product.CategoryId, CategoryName = category.CategoryName, Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount, UserId = product.UserId };
+                              on product.CategoryId equals category.Id
+                            select new ProductDTO { Id = product.Id, ProductName = product.ProductName, CategoryId = product.CategoryId, CategoryName = category.CategoryName, Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount, UserId = product.UserId };
                 model = query.FirstOrDefault();
             }
             return View(model);
@@ -109,7 +109,7 @@ namespace OnlineStore.WebUI.Controllers
 
             ViewBag.Categories = list;
             List<Category> alllist = new List<Category>(list);
-            alllist.Insert(0, new Category { CategoryId = 0, CategoryName = "Select All" });
+            alllist.Insert(0, new Category { Id = 0, CategoryName = "Select All" });
             ViewBag.CategoryFilter = alllist;
             return View();
         }
@@ -126,21 +126,21 @@ namespace OnlineStore.WebUI.Controllers
                     var query = from product in context.Products
                                 where product.UserId == userid
                                 join category in context.Categories
-                                  on product.CategoryId equals category.CategoryId
-                                select new ProductOrderDTO { ProductId = product.ProductId, ProductName = product.ProductName, CategoryId = product.CategoryId, CategoryName = category.CategoryName, Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount, UserId = product.UserId };
+                                  on product.CategoryId equals category.Id
+                                select new ProductOrderDTO { Id = product.Id, ProductName = product.ProductName, CategoryId = product.CategoryId, CategoryName = category.CategoryName, Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount, UserId = product.UserId };
                     list = query.ToList();                    
 
                     foreach (ProductOrderDTO product in list)
                     {
                         var orders = from o in context.Orders
                                      join i in context.OrderItems
-                                       on o.OrderId equals i.OrderId
+                                       on o.Id equals i.OrderId
                                      join u in context.Users
                                        on o.UserId equals u.Id
-                                     where i.ProductId == product.ProductId
-                                     orderby o.OrderId descending
-                                     select new { o.OrderId, o.UserId, u.UserName, o.FullName, o.Address, o.City, o.State, o.Zip, o.ConfirmationNumber, o.DeliveryDate };
-                        product.Orders = orders.Select(o => new OrderDTO { OrderId = o.OrderId, UserId = o.UserId, UserName = o.UserName, FullName = o.FullName, Address = o.Address, City = o.City, State = o.State, Zip = o.Zip, ConfirmationNumber = o.ConfirmationNumber, DeliveryDate = o.DeliveryDate }).ToList();
+                                     where i.ProductId == product.Id
+                                     orderby o.Id descending
+                                     select new { o.Id, o.UserId, u.UserName, o.FullName, o.Address, o.City, o.State, o.Zip, o.ConfirmationNumber, o.DeliveryDate };
+                        product.Orders = orders.Select(o => new OrderDTO { OrderId = o.Id, UserId = o.UserId, UserName = o.UserName, FullName = o.FullName, Address = o.Address, City = o.City, State = o.State, Zip = o.Zip, ConfirmationNumber = o.ConfirmationNumber, DeliveryDate = o.DeliveryDate }).ToList();
 
                     }
                 }

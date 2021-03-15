@@ -22,7 +22,7 @@ namespace OnlineStore.WebUI.Areas.Admin.Controllers
 
             ViewBag.Categories = list;
             List<Category> alllist = new List<Category>(list);
-            alllist.Insert(0, new Category { CategoryId = 0, CategoryName = "Select All" });
+            alllist.Insert(0, new Category { Id = 0, CategoryName = "Select All" });
             ViewBag.CategoryFilter = alllist;
             return View();
         }

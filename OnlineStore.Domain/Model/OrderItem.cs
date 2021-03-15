@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameStore.Domain.Model;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -7,20 +8,12 @@ using System.Threading.Tasks;
 
 namespace OnlineStore.Domain.Model
 {
-    public partial class OrderItem
+    public class OrderItem : BaseEntity
     {
         public OrderItem()
         {
 
         }
-        //public OrderItem(int OrderId, int ProductId, int Quantity)
-        //{
-        //    this.OrderId = OrderId;
-        //    this.ProductId = ProductId;
-        //    this.Quantity = Quantity;
-        //}
-        [Required]
-        public int OrderItemId { get; set; }
         [Required]
         public int OrderId { get; set; }
         [Required]

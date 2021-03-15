@@ -23,7 +23,7 @@ namespace OnlineStore.WebUI.Models
 
         public int GetItemId()
         {
-            return ProductItem.ProductId;
+            return ProductItem.Id;
         }
 
         public string GetItemName()

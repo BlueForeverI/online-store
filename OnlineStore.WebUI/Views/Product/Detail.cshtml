@@ -4,7 +4,7 @@
     ViewBag.Title = "Product Detail";
 }
 @Html.Partial("_FrontPartial")
-@Html.HiddenFor(o=>o.ProductId)
+@Html.HiddenFor(o=>o.Id)
 <div class="row" style="text-align:center;">
     <div class="col-sm-3"></div>
     <div class="col-sm-3"><img src="~/images/@Model.Image" class="img-responsive" style="width:300px" alt="Image"></div>
@@ -19,7 +19,7 @@
             <div>
                 @using (Html.BeginForm("CreateOrUpdate", "ShoppingCart", FormMethod.Post))
                 {
-                    <input type='hidden' name='id' value='@Model.ProductId'>
+                    <input type='hidden' name='id' value='@Model.Id'>
                     <input type='hidden' name='quantity' value='0'>
                     <input type='submit' class='btn btn-warning' value='Add to Cart'>
                 }

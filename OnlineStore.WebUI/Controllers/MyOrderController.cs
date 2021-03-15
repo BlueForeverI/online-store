@@ -25,20 +25,20 @@ namespace OnlineStore.WebUI.Controllers
                                  join u in context.Users
                                    on o.UserId equals u.Id
                                  where o.UserId == userid
-                                 orderby o.OrderId descending
-                                 select new { o.OrderId, o.UserId, u.UserName, o.FullName, o.Address, o.City, o.State, o.Zip, o.ConfirmationNumber, o.DeliveryDate };
-                    list = orders.Select(o => new OrderViewModel { OrderId = o.OrderId, UserId = o.UserId, UserName = o.UserName, FullName = o.FullName, Address = o.Address, City = o.City, State = o.State, Zip = o.Zip, ConfirmationNumber = o.ConfirmationNumber, DeliveryDate = o.DeliveryDate }).ToList();
+                                 orderby o.Id descending
+                                 select new { o.Id, o.UserId, u.UserName, o.FullName, o.Address, o.City, o.State, o.Zip, o.ConfirmationNumber, o.DeliveryDate };
+                    list = orders.Select(o => new OrderViewModel { OrderId = o.Id, UserId = o.UserId, UserName = o.UserName, FullName = o.FullName, Address = o.Address, City = o.City, State = o.State, Zip = o.Zip, ConfirmationNumber = o.ConfirmationNumber, DeliveryDate = o.DeliveryDate }).ToList();
 
                     foreach (OrderViewModel order in list)
                     {
                         var orderitems = from i in context.OrderItems
                                          join p in context.Products
-                                           on i.ProductId equals p.ProductId
+                                           on i.ProductId equals p.Id
                                          join c in context.Categories
-                                           on p.CategoryId equals c.CategoryId
+                                           on p.CategoryId equals c.Id
                                          where i.OrderId == order.OrderId
-                                         select new { i.OrderItemId, i.OrderId, i.ProductId, p.ProductName, p.CategoryId, c.CategoryName, p.Price, p.Image, p.Condition, p.Discount, i.Quantity };
-                        order.Items = orderitems.Select(o => new OrderItemViewModel { OrderItemId = o.OrderItemId, OrderId = o.OrderId, ProductId = o.ProductId, ProductName = o.ProductName, CategoryId = o.CategoryId, CategoryName = o.CategoryName, Price = o.Price, Image = o.Image, Condition = o.Condition, Discount = o.Discount, Quantity = o.Quantity }).ToList();
+                                         select new { i.Id, i.OrderId, i.ProductId, p.ProductName, p.CategoryId, c.CategoryName, p.Price, p.Image, p.Condition, p.Discount, i.Quantity };
+                        order.Items = orderitems.Select(o => new OrderItemViewModel { OrderItemId = o.Id, OrderId = o.OrderId, ProductId = o.ProductId, ProductName = o.ProductName, CategoryId = o.CategoryId, CategoryName = o.CategoryName, Price = o.Price, Image = o.Image, Condition = o.Condition, Discount = o.Discount, Quantity = o.Quantity }).ToList();
                     }
                     Session["OrderCount"] = orders.Count();
                 }

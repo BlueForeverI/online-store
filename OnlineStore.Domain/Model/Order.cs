@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameStore.Domain.Model;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -7,14 +8,12 @@ using System.Threading.Tasks;
 
 namespace OnlineStore.Domain.Model
 {
-    public partial class Order
+    public class Order : BaseEntity
     {
         public Order()
         {
             this.OrderItems = new HashSet<OrderItem>();
         }
-        [Required]
-        public int OrderId { get; set; }
         [Required]
         public string UserId { get; set; }
         [Required]

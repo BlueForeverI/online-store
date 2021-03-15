@@ -23,7 +23,7 @@ namespace OnlineStore.WebUI.Apis
                 return (List<CategoryDTO>)HttpContext.Current.Cache["CategoryList"];
             using (OnlineStoreDBContext context = new OnlineStoreDBContext())
             {
-                List<CategoryDTO> categories = context.Categories.Select(c => new CategoryDTO { CategoryId = c.CategoryId, CategoryName = c.CategoryName }).ToList();
+                List<CategoryDTO> categories = context.Categories.Select(c => new CategoryDTO { CategoryId = c.Id, CategoryName = c.CategoryName }).ToList();
                 HttpContext.Current.Cache["CategoryList"] = categories;
                 return categories;
             }
@@ -37,7 +37,7 @@ namespace OnlineStore.WebUI.Apis
             using (OnlineStoreDBContext context = new OnlineStoreDBContext())
             {
                 Category c = context.Categories.Find(id);
-                CategoryDTO category = new CategoryDTO { CategoryId = c.CategoryId, CategoryName = c.CategoryName };
+                CategoryDTO category = new CategoryDTO { CategoryId = c.Id, CategoryName = c.CategoryName };
                 HttpContext.Current.Cache["Category" + id] = category;
                 return category;
             }
@@ -56,7 +56,7 @@ namespace OnlineStore.WebUI.Apis
             {
                 using (OnlineStoreDBContext context = new OnlineStoreDBContext())
                 {
-                    List<CategoryDTO> categories = context.Categories.Select(c => new CategoryDTO { CategoryId = c.CategoryId, CategoryName = c.CategoryName }).ToList();
+                    List<CategoryDTO> categories = context.Categories.Select(c => new CategoryDTO { CategoryId = c.Id, CategoryName = c.CategoryName }).ToList();
                     HttpContext.Current.Cache["CategoryList"] = categories;
                     return categories.Count();
                 }
@@ -99,13 +99,13 @@ namespace OnlineStore.WebUI.Apis
 
             using (OnlineStoreDBContext context = new OnlineStoreDBContext())
             {
-                bool exist = context.Categories.Any(c => c.CategoryId == value.CategoryId);
+                bool exist = context.Categories.Any(c => c.Id == value.CategoryId);
                 if (!exist)
                 {
                     return Request.CreateResponse(HttpStatusCode.OK, "Category ["+value.CategoryId+"] does not exist!");
                 }
                 
-                exist = context.Categories.Where(c => c.CategoryId != value.CategoryId).Any(c => c.CategoryName.Equals(value.CategoryName, StringComparison.OrdinalIgnoreCase));
+                exist = context.Categories.Where(c => c.Id != value.CategoryId).Any(c => c.CategoryName.Equals(value.CategoryName, StringComparison.OrdinalIgnoreCase));
                 if (exist)
                 {
                     return Request.CreateResponse(HttpStatusCode.OK, "Category [" + value.CategoryName + "] is already existed, please try another name!");

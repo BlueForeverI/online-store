@@ -36,8 +36,8 @@ namespace OnlineStore.WebUI.Apis
                 {
                     var query = from product in context.Products
                                 join category in context.Categories
-                                  on product.CategoryId equals category.CategoryId
-                      select new ProductDTO { ProductId = product.ProductId, ProductName = product.ProductName, CategoryId = product.CategoryId, CategoryName = category.CategoryName, Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount, UserId = product.UserId };
+                                  on product.CategoryId equals category.Id
+                      select new ProductDTO { Id = product.Id, ProductName = product.ProductName, CategoryId = product.CategoryId, CategoryName = category.CategoryName, Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount, UserId = product.UserId };
 
                     List<ProductDTO> products = query.ToList();
                     HttpContext.Current.Cache["ProductList"] = products;
@@ -48,8 +48,8 @@ namespace OnlineStore.WebUI.Apis
                     var query = from product in context.Products
                                 where product.CategoryId == value.CategoryId
                                 join category in context.Categories
-                                  on product.CategoryId equals category.CategoryId
-                                select new ProductDTO { ProductId = product.ProductId, ProductName = product.ProductName, CategoryId = product.CategoryId, CategoryName = category.CategoryName, Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount, UserId = product.UserId };
+                                  on product.CategoryId equals category.Id
+                                select new ProductDTO { Id = product.Id, ProductName = product.ProductName, CategoryId = product.CategoryId, CategoryName = category.CategoryName, Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount, UserId = product.UserId };
                     List<ProductDTO> products = query.ToList();
                     HttpContext.Current.Cache["ProductList" + value.CategoryId] = products;
                     return products;                 
@@ -69,8 +69,8 @@ namespace OnlineStore.WebUI.Apis
                     var query = from product in context.Products
                                where product.UserId == userid
                                 join category in context.Categories
-                                  on product.CategoryId equals category.CategoryId
-                              select new ProductDTO { ProductId = product.ProductId, ProductName = product.ProductName, CategoryId = product.CategoryId, CategoryName = category.CategoryName, Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount, UserId = product.UserId };
+                                  on product.CategoryId equals category.Id
+                              select new ProductDTO { Id = product.Id, ProductName = product.ProductName, CategoryId = product.CategoryId, CategoryName = category.CategoryName, Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount, UserId = product.UserId };
                     List<ProductDTO> products = query.ToList();
                     return products;
                 }
@@ -80,8 +80,8 @@ namespace OnlineStore.WebUI.Apis
                                where product.CategoryId == value.CategoryId 
                                   && product.UserId == userid
                                 join category in context.Categories
-                                  on product.CategoryId equals category.CategoryId
-                              select new ProductDTO { ProductId = product.ProductId, ProductName = product.ProductName, CategoryId = product.CategoryId, CategoryName = category.CategoryName, Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount, UserId = product.UserId };
+                                  on product.CategoryId equals category.Id
+                              select new ProductDTO { Id = product.Id, ProductName = product.ProductName, CategoryId = product.CategoryId, CategoryName = category.CategoryName, Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount, UserId = product.UserId };
                     List<ProductDTO> products = query.ToList();
                     return products;
                 }
@@ -102,7 +102,7 @@ namespace OnlineStore.WebUI.Apis
                 }
                 else
                 {
-                    ProductDTO productDTO = new ProductDTO { ProductId = product.ProductId, ProductName = product.ProductName, CategoryId = product.CategoryId, Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount, UserId = product.UserId };
+                    ProductDTO productDTO = new ProductDTO { Id = product.Id, ProductName = product.ProductName, CategoryId = product.CategoryId, Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount, UserId = product.UserId };
                     HttpContext.Current.Cache["Product" + id] = productDTO;
                     return productDTO;
                 }
@@ -125,8 +125,8 @@ namespace OnlineStore.WebUI.Apis
                 {
                     var query = from product in context.Products
                                 join category in context.Categories
-                                  on product.CategoryId equals category.CategoryId
-                              select new ProductDTO { ProductId = product.ProductId, ProductName = product.ProductName, CategoryId = product.CategoryId, CategoryName = category.CategoryName, Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount, UserId = product.UserId };
+                                  on product.CategoryId equals category.Id
+                              select new ProductDTO { Id = product.Id, ProductName = product.ProductName, CategoryId = product.CategoryId, CategoryName = category.CategoryName, Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount, UserId = product.UserId };
 
                     List<ProductDTO> products = query.ToList();
                     HttpContext.Current.Cache["ProductList"] = products;
@@ -220,13 +220,13 @@ namespace OnlineStore.WebUI.Apis
 
                 using (OnlineStoreDBContext context = new OnlineStoreDBContext())
                 {
-                    bool exist = context.Products.Any(c => c.ProductId == value.ProductId);
+                    bool exist = context.Products.Any(c => c.Id == value.ProductId);
                     if (!exist)
                     {
                         return Request.CreateResponse(HttpStatusCode.OK, "Product [" + value.ProductId + "] does not exist!");
                     }
 
-                    exist = context.Products.Where(c => c.ProductId != value.ProductId).Any(c => c.ProductName.Equals(value.ProductName, StringComparison.OrdinalIgnoreCase));
+                    exist = context.Products.Where(c => c.Id != value.ProductId).Any(c => c.ProductName.Equals(value.ProductName, StringComparison.OrdinalIgnoreCase));
                     if (exist)
                     {
                         return Request.CreateResponse(HttpStatusCode.OK, "Product [" + value.ProductName + "] is already existed, please try another name!");
@@ -255,7 +255,7 @@ namespace OnlineStore.WebUI.Apis
                     //context.SaveChanges();
                     HttpContext.Current.Cache.Remove("ProductList");
                     HttpContext.Current.Cache.Remove("ProductList" + value.CategoryId);
-                    HttpContext.Current.Cache.Remove("Product" + product.ProductId);
+                    HttpContext.Current.Cache.Remove("Product" + product.Id);
                     return Request.CreateResponse(HttpStatusCode.OK, "Okay");
                 }
             }

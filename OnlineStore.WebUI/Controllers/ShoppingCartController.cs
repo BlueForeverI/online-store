@@ -144,7 +144,7 @@ namespace OnlineStore.WebUI.Controllers
                             newOrder.ConfirmationNumber = DateTime.Now.ToString("yyyyMMddHHmmss");
                             newOrder.UserId = User.Identity.GetUserId();
                             context.Orders.Add(newOrder);
-                            cart.GetItems().ForEach(c => context.OrderItems.Add(new OrderItem { OrderId = newOrder.OrderId, ProductId = c.GetItemId(), Quantity = c.Quantity }));
+                            cart.GetItems().ForEach(c => context.OrderItems.Add(new OrderItem { OrderId = newOrder.Id, ProductId = c.GetItemId(), Quantity = c.Quantity }));
                             context.SaveChanges();
                             System.Web.HttpContext.Current.Cache.Remove("OrderList");
                             Session["ShoppingCart"] = null;
@@ -154,19 +154,19 @@ namespace OnlineStore.WebUI.Controllers
                             var order = from o in context.Orders
                                         join u in context.Users
                                           on o.UserId equals u.Id
-                                        where o.OrderId == newOrder.OrderId
-                                        select new { o.OrderId, o.UserId, u.UserName, o.FullName, o.Address, o.City, o.State, o.Zip, o.ConfirmationNumber, o.DeliveryDate };
+                                        where o.Id == newOrder.Id
+                                        select new { o.Id, o.UserId, u.UserName, o.FullName, o.Address, o.City, o.State, o.Zip, o.ConfirmationNumber, o.DeliveryDate };
                             var ord = order.FirstOrDefault();
-                            model = new OrderViewModel { OrderId = ord.OrderId, UserId = ord.UserId, UserName = ord.UserName, FullName = ord.FullName, Address = ord.Address, City = ord.City, State = ord.State, Zip = ord.Zip, ConfirmationNumber = ord.ConfirmationNumber, DeliveryDate = ord.DeliveryDate };
+                            model = new OrderViewModel { OrderId = ord.Id, UserId = ord.UserId, UserName = ord.UserName, FullName = ord.FullName, Address = ord.Address, City = ord.City, State = ord.State, Zip = ord.Zip, ConfirmationNumber = ord.ConfirmationNumber, DeliveryDate = ord.DeliveryDate };
 
                             var orderitems = from i in context.OrderItems
                                              join p in context.Products
-                                               on i.ProductId equals p.ProductId
+                                               on i.ProductId equals p.Id
                                              join c in context.Categories
-                                               on p.CategoryId equals c.CategoryId
-                                             where i.OrderId == newOrder.OrderId
-                                             select new { i.OrderItemId, i.OrderId, i.ProductId, p.ProductName, p.CategoryId, c.CategoryName, p.Price, p.Image, p.Condition, p.Discount, i.Quantity };
-                            model.Items = orderitems.Select(o => new OrderItemViewModel { OrderItemId = o.OrderItemId, OrderId = o.OrderId, ProductId = o.ProductId, ProductName = o.ProductName, CategoryId = o.CategoryId, CategoryName = o.CategoryName, Price = o.Price, Image = o.Image, Condition = o.Condition, Discount = o.Discount, Quantity = o.Quantity }).ToList();
+                                               on p.CategoryId equals c.Id
+                                             where i.OrderId == newOrder.Id
+                                             select new { i.Id, i.OrderId, i.ProductId, p.ProductName, p.CategoryId, c.CategoryName, p.Price, p.Image, p.Condition, p.Discount, i.Quantity };
+                            model.Items = orderitems.Select(o => new OrderItemViewModel { OrderItemId = o.Id, OrderId = o.OrderId, ProductId = o.ProductId, ProductName = o.ProductName, CategoryId = o.CategoryId, CategoryName = o.CategoryName, Price = o.Price, Image = o.Image, Condition = o.Condition, Discount = o.Discount, Quantity = o.Quantity }).ToList();
                         }
                     }
                     catch (Exception ex)
