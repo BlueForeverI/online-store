@@ -71,11 +71,11 @@ namespace OnlineStore.WebUI.Apis
                 var order = context.Orders.Find(id);
                 if (order == null)
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, "No such order [" + id + "].");
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "No such order [" + id + "].");
                 }
                 context.Orders.Remove(order);
                 context.SaveChanges();
-                return Request.CreateResponse(HttpStatusCode.OK, "Okay");
+                return Request.CreateResponse(HttpStatusCode.OK);
             }
         }
     }

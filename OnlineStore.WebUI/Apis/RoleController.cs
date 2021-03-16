@@ -82,16 +82,16 @@ namespace OnlineStore.WebUI.Apis
                 if (result.Succeeded)
                 {
                     HttpContext.Current.Cache.Remove("RoleList");
-                    return Request.CreateResponse(HttpStatusCode.OK, "Okay");
+                    return Request.CreateResponse(HttpStatusCode.OK);
                 }
                 else
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, GetErrorMessage(result));
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, GetErrorMessage(result));
                 }                
             }
             else
             {
-                return Request.CreateResponse(HttpStatusCode.OK, "ModelState.IsValid=false");
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid input");
             }
         }
         public HttpResponseMessage Post([FromBody]RoleViewModel value)
@@ -101,7 +101,7 @@ namespace OnlineStore.WebUI.Apis
                 AppRole role = RoleManager.FindById(value.Id);
                 if (role == null)
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, "Role [" + value.Id + "] does not exist!");
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Role [" + value.Id + "] does not exist!");
                 }
                 role.Name = value.Name;
                 role.Description = value.Description;
@@ -110,16 +110,16 @@ namespace OnlineStore.WebUI.Apis
                 {
                     HttpContext.Current.Cache.Remove("RoleList");
                     HttpContext.Current.Cache.Remove("Role" + role.Id);
-                    return Request.CreateResponse(HttpStatusCode.OK, "Okay");
+                    return Request.CreateResponse(HttpStatusCode.OK);
                 }
                 else
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, GetErrorMessage(result));
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, GetErrorMessage(result));
                 }
             }
             else
             {
-                return Request.CreateResponse(HttpStatusCode.OK, "ModelState.IsValid=false");
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid input");
             }            
         }
         
@@ -129,11 +129,11 @@ namespace OnlineStore.WebUI.Apis
             AppRole role = RoleManager.FindById(id);
             if (role == null)
             {
-                return Request.CreateResponse(HttpStatusCode.OK, "Role ["+id+"] not found.");
+                return Request.CreateResponse(HttpStatusCode.NotFound, "Role ["+id+"] not found.");
             }
             else if (role.Users.Count > 0)
             {
-                return Request.CreateResponse(HttpStatusCode.OK, "Users are assigned with role [" + role.Name + "], remove them first!");
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Users are assigned to role [" + role.Name + "], remove them first!");
             }
             else
             {
@@ -142,11 +142,11 @@ namespace OnlineStore.WebUI.Apis
                 {
                     HttpContext.Current.Cache.Remove("RoleList");
                     HttpContext.Current.Cache.Remove("Role" + id);
-                    return Request.CreateResponse(HttpStatusCode.OK, "Okay");
+                    return Request.CreateResponse(HttpStatusCode.OK);
                 }
                 else
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, GetErrorMessage(result));
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, GetErrorMessage(result));
                 }
             }            
         }

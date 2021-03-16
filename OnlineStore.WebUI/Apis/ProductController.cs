@@ -215,7 +215,7 @@ namespace OnlineStore.WebUI.Apis
 
                 if (value.Discount < 0 || value.Discount > 100)
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, "Discount must between 0 ~ 100.");
+                    return Request.CreateResponse(HttpStatusCode.OK, "Discount must be between 0 ~ 100.");
                 }
 
                 using (OnlineStoreDBContext context = new OnlineStoreDBContext())
@@ -251,12 +251,10 @@ namespace OnlineStore.WebUI.Apis
                     product.Condition = value.Condition;
                     product.Discount = value.Discount;
                     context.SaveChanges();
-                    //context.Entry(product).CurrentValues.SetValues(value);
-                    //context.SaveChanges();
                     HttpContext.Current.Cache.Remove("ProductList");
                     HttpContext.Current.Cache.Remove("ProductList" + value.CategoryId);
                     HttpContext.Current.Cache.Remove("Product" + product.Id);
-                    return Request.CreateResponse(HttpStatusCode.OK, "Okay");
+                    return Request.CreateResponse(HttpStatusCode.OK);
                 }
             }
             else
@@ -276,19 +274,19 @@ namespace OnlineStore.WebUI.Apis
                 var product = context.Products.Find(id);
                 if (product == null)
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, "No such product!");
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "No such product!");
                 }
                 bool isAdvanced = HttpContext.Current.User.IsInRole("Advanced");
                 if (isAdvanced && product.UserId != HttpContext.Current.User.Identity.GetUserId())
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, "You have no authorization to delete this product!");
+                    return Request.CreateResponse(HttpStatusCode.Forbidden, "You have no authorization to delete this product!");
                 }
                 context.Products.Remove(product);
                 context.SaveChanges();
                 HttpContext.Current.Cache.Remove("ProductList");
                 HttpContext.Current.Cache.Remove("ProductList" + product.CategoryId);
                 HttpContext.Current.Cache.Remove("Product" + id);
-                return Request.CreateResponse(HttpStatusCode.OK, "Okay");
+                return Request.CreateResponse(HttpStatusCode.OK);
             }
         }
     }

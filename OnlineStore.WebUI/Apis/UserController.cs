@@ -78,16 +78,16 @@ namespace OnlineStore.WebUI.Apis
                 if (result.Succeeded)
                 {
                     HttpContext.Current.Cache.Remove("UserList");
-                    return Request.CreateResponse(HttpStatusCode.OK, "Okay");
+                    return Request.CreateResponse(HttpStatusCode.OK);
                 }
                 else
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, GetErrorMessage(result));
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, GetErrorMessage(result));
                 }                            
             }
             else
             {
-                return Request.CreateResponse(HttpStatusCode.OK, "ModelState.IsValid=false");
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid input");
             }
         }
         public HttpResponseMessage Post([FromBody]UserViewModel value)
@@ -97,7 +97,7 @@ namespace OnlineStore.WebUI.Apis
                 AppUser user = UserManager.FindById(value.Id);
                 if (user == null)
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, "User [" + value.Id + "] does not exist!");
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "User [" + value.Id + "] does not exist!");
                 }
                 user.UserName = value.UserName;
                 user.Membership = value.Membership;
@@ -109,16 +109,16 @@ namespace OnlineStore.WebUI.Apis
                 {
                     HttpContext.Current.Cache.Remove("UserList");
                     HttpContext.Current.Cache.Remove("User" + value.Id);
-                    return Request.CreateResponse(HttpStatusCode.OK, "Okay");
+                    return Request.CreateResponse(HttpStatusCode.OK);
                 }
                 else
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, GetErrorMessage(result));
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, GetErrorMessage(result));
                 }
             }
             else
             {
-                return Request.CreateResponse(HttpStatusCode.OK, "ModelState.IsValid=false");
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid input");
             }            
         }
         
@@ -128,7 +128,7 @@ namespace OnlineStore.WebUI.Apis
             AppUser user = UserManager.FindById(id);
             if (user == null)
             {
-                return Request.CreateResponse(HttpStatusCode.OK, "User ["+id+"] not found.");
+                return Request.CreateResponse(HttpStatusCode.NotFound, "User ["+id+"] not found.");
             }            
             else
             {
@@ -137,11 +137,11 @@ namespace OnlineStore.WebUI.Apis
                 {
                     HttpContext.Current.Cache.Remove("UserList");
                     HttpContext.Current.Cache.Remove("User" + user.Id);
-                    return Request.CreateResponse(HttpStatusCode.OK, "Okay");
+                    return Request.CreateResponse(HttpStatusCode.OK);
                 }
                 else
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, GetErrorMessage(result));
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, GetErrorMessage(result));
                 }
             }            
         }
