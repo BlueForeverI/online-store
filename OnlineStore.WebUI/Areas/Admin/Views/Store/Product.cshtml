@@ -13,7 +13,7 @@
         <form class="form-inline" role="form">
             <div class="form-group">
                 <label for="categoryFilter">Category:</label>
-                @Html.DropDownListFor(o => o.CategoryId, new SelectList(ViewBag.CategoryFilter, "CategoryId", "CategoryName"), new { @id = "categoryFilter", @name = "categoryFilter", @class = "form-control" })
+                @Html.DropDownListFor(o => o.CategoryId, new SelectList(ViewBag.CategoryFilter, "Id", "CategoryName"), new { @id = "categoryFilter", @name = "categoryFilter", @class = "form-control" })
             </div>
         </form>
     </div>
@@ -52,7 +52,7 @@
                 </fieldset>
                 <fieldset class="form-group">
                     @Html.LabelFor(p => p.Category)
-                    @Html.DropDownListFor(o => o.CategoryId, new SelectList(ViewBag.Categories, "CategoryId", "CategoryName"), new { @class = "form-control" })
+                    @Html.DropDownListFor(o => o.CategoryId, new SelectList(ViewBag.Categories, "Id", "CategoryName"), new { @class = "form-control" })
                 </fieldset>
                 <fieldset class="form-group">
                     @Html.LabelFor(p => p.Price)
@@ -99,7 +99,7 @@
                 </fieldset>
                 <fieldset class="form-group">
                     @Html.LabelFor(p => p.CategoryId)
-                    @Html.DropDownListFor(o => o.CategoryId, new SelectList(ViewBag.Categories, "CategoryId", "CategoryName"), new { @class = "form-control" })
+                    @Html.DropDownListFor(o => o.CategoryId, new SelectList(ViewBag.Categories, "Id", "CategoryName"), new { @class = "form-control" })
                 </fieldset>
                 <fieldset class="form-group">
                     @Html.LabelFor(p => p.Price)
@@ -168,7 +168,7 @@
             var url = '/api/Product/?CategoryId=' + categoryid + '&CategoryName=AAA';
             $.getJSON(url, function (data) {
                 $.each(data, function (i, product) {
-                    $('#modelList tbody').append("<tr><td>" + product.Id + "</td><td>" + product.ProductName + "</td><td>" + product.CategoryName + "</td><td>" + product.Price + "</td><td>" + product.Image + "</td><td>" + product.Condition + "</td><td>" + product.Discount + "</td><td><span><a class='btn btn-success' href='javascript:editModel(\"" + product.ProductId + "\");'> Edit</a></span><span style='padding-left: 5px'><a class='btn btn-danger' href='javascript:deleteModel(\"" + product.ProductId + "\");'> Delete</a></span></td></tr>");
+                    $('#modelList tbody').append("<tr><td>" + product.Id + "</td><td>" + product.ProductName + "</td><td>" + product.CategoryName + "</td><td>" + product.Price + "</td><td>" + product.Image + "</td><td>" + product.Condition + "</td><td>" + product.Discount + "</td><td><span><a class='btn btn-success' href='javascript:editModel(\"" + product.Id + "\");'> Edit</a></span><span style='padding-left: 5px'><a class='btn btn-danger' href='javascript:deleteModel(\"" + product.Id + "\");'> Delete</a></span></td></tr>");
                 });
             });
         }
@@ -205,7 +205,7 @@
                 url: '/api/Product/' + id,
                 type: 'GET',
                 success: function (result) {
-                    $('#EditModal').find('#ProductId').val(result.Id);
+                    $('#EditModal').find('#Id').val(result.Id);
                     $('#EditModal').find('#ProductName').val(result.ProductName);
                     $('#EditModal').find('#CategoryId').val(result.CategoryId);
                     $('#EditModal').find('#Price').val(result.Price);
@@ -239,7 +239,6 @@
 
         function onFailure(data) {
             alert('An error occurred, please try again.');
-            //alert('Error:' + data.responseText);
         }
     </script>
 }

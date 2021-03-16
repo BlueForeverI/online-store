@@ -8,7 +8,7 @@ namespace OnlineStore.WebUI.Areas.Admin.Models
 {
     public class ProductViewModel
     {
-        public int ProductId { get; set; }
+        public int Id { get; set; }
         [Display(Name = "Product Name")]
         [Required]
         public string ProductName { get; set; }

@@ -30,7 +30,7 @@ namespace OnlineStore.Domain.Infrastructure
             {
                 if (entry.Entity is BaseEntity trackable)
                 {
-                    string operation = "";
+                    string operation = entry.State.ToString();
                     trackable.UpdatedOn = utcNow;
                     switch (entry.State)
                     {
@@ -41,14 +41,20 @@ namespace OnlineStore.Domain.Infrastructure
                         case EntityState.Added:
                             operation = "INSERT";
                             break;
+                        case EntityState.Deleted:
+                            operation = "DELETE";
+                            break;
                     }
 
-                    Logs.Add(new Log
+                    if (entry.State != EntityState.Unchanged)
                     {
-                        TableName = nameof(entry.Entity),
-                        Operation = operation,
-                        ExecutedAt = DateTime.UtcNow
-                    });
+                        Logs.Add(new Log
+                        {
+                            TableName = trackable.GetType().Name,
+                            Operation = operation,
+                            ExecutedAt = DateTime.UtcNow
+                        });
+                    }
                 }
             }
         }

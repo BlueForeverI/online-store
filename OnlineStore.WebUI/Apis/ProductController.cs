@@ -220,18 +220,18 @@ namespace OnlineStore.WebUI.Apis
 
                 using (OnlineStoreDBContext context = new OnlineStoreDBContext())
                 {
-                    bool exist = context.Products.Any(c => c.Id == value.ProductId);
+                    bool exist = context.Products.Any(c => c.Id == value.Id);
                     if (!exist)
                     {
-                        return Request.CreateResponse(HttpStatusCode.OK, "Product [" + value.ProductId + "] does not exist!");
+                        return Request.CreateResponse(HttpStatusCode.OK, "Product [" + value.Id + "] does not exist!");
                     }
 
-                    exist = context.Products.Where(c => c.Id != value.ProductId).Any(c => c.ProductName.Equals(value.ProductName, StringComparison.OrdinalIgnoreCase));
+                    exist = context.Products.Where(c => c.Id != value.Id).Any(c => c.ProductName.Equals(value.ProductName, StringComparison.OrdinalIgnoreCase));
                     if (exist)
                     {
                         return Request.CreateResponse(HttpStatusCode.OK, "Product [" + value.ProductName + "] is already existed, please try another name!");
                     }
-                    var product = context.Products.Find(value.ProductId);
+                    var product = context.Products.Find(value.Id);
                     if (product == null)
                     {
                         return Request.CreateResponse(HttpStatusCode.OK, "No such product!");

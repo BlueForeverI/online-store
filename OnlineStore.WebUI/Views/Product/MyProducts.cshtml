@@ -92,10 +92,10 @@
             </div>
             <div class="modal-body">               
                 @Html.ValidationSummary(false, "", new { @class = "text-danger" })
-                @Html.HiddenFor(p => p.ProductId)
+                @Html.HiddenFor(p => p.Id)
                 <fieldset class="form-group">
                     @Html.LabelFor(p => p.ProductName)
-                    @Html.TextBoxFor(p => p.ProductName, new { @class = "form-control" })
+                    @Html.TextBoxFor(p => p.Id, new { @class = "form-control" })
                 </fieldset>
                 <fieldset class="form-group">
                     @Html.LabelFor(p => p.CategoryId)
