@@ -48,31 +48,8 @@ namespace OnlineStore.WebUI.Controllers
                     return View(model);
                 }
                 Session["Register"] = model;
-                //Assign the values for the properties we need to pass to the service
-                String AppId = ConfigurationHelper.GetAppId();
-                String SharedKey = ConfigurationHelper.GetSharedKey();
-                String AppTransId = "20";
-                String AppTransAmount = "";
-                if (model.Membership.Equals("Regular"))
-                {
-                    AppTransAmount = "49.99";
-                }
-                else
-                {
-                    AppTransAmount = "99.99";
-                }
 
-                // Hash the values so the server can verify the values are original
-                String hash = HttpUtility.UrlEncode(CreditAuthorizationClient.GenerateClientRequestHash(SharedKey, AppId, AppTransId, AppTransAmount));
-
-                //Create the URL and  concatenate  the Query String values
-                String url = "http://ectweb2.cs.depaul.edu/ECTCreditGateway/Authorize.aspx";
-                url = url + "?AppId=" + AppId;
-                url = url + "&TransId=" + AppTransId;
-                url = url + "&AppTransAmount=" + AppTransAmount;
-                url = url + "&AppHash=" + hash;
-
-                return Redirect(url);
+                return View(model);
             }
 
             // If we got this far, something failed, redisplay form

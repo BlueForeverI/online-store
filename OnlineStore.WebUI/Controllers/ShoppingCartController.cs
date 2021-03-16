@@ -84,23 +84,7 @@ namespace OnlineStore.WebUI.Controllers
 
             Session["Checkout"] = value;
 
-            //Assign the values for the properties we need to pass to the service
-            String AppId = ConfigurationHelper.GetAppId2();
-            String SharedKey = ConfigurationHelper.GetSharedKey2();
-            String AppTransId = "20";
-            String AppTransAmount = cart.GetTotalValue().ToString();
-
-            // Hash the values so the server can verify the values are original
-            String hash = HttpUtility.UrlEncode(CreditAuthorizationClient.GenerateClientRequestHash(SharedKey, AppId, AppTransId, AppTransAmount));
-
-            //Create the URL and  concatenate  the Query String values
-            String url = "http://ectweb2.cs.depaul.edu/ECTCreditGateway/Authorize.aspx";
-            url = url + "?AppId=" + AppId;
-            url = url + "&TransId=" + AppTransId;
-            url = url + "&AppTransAmount=" + AppTransAmount;
-            url = url + "&AppHash=" + hash;
-
-            return Redirect(url);
+            return View("Index", "ShoppingCart");
         }
 
         public ActionResult ProcessCreditResponse(String TransId, String TransAmount, String StatusCode, String AppHash)
