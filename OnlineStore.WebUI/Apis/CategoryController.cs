@@ -10,37 +10,40 @@ using System.Net.Http;
 using System.Net;
 using OnlineStore.WebUI.Areas.Admin.Models.DTO;
 using OnlineStore.WebUI.Areas.Admin.Models;
+using System.Linq.Expressions;
+using OnlineStore.Services;
 
 namespace OnlineStore.WebUI.Apis
 {
     [Authorize(Roles = "Admin")]
     public class CategoryController : ApiController
     {
+        private CategoryService _service = new CategoryService(); 
+
         // GET api/<controller>
         public List<CategoryDTO> Get()
         {
             if (HttpContext.Current.Cache["CategoryList"] != null)
                 return (List<CategoryDTO>)HttpContext.Current.Cache["CategoryList"];
-            using (OnlineStoreDBContext context = new OnlineStoreDBContext())
-            {
-                List<CategoryDTO> categories = context.Categories.Select(c => new CategoryDTO { CategoryId = c.Id, CategoryName = c.CategoryName }).ToList();
-                HttpContext.Current.Cache["CategoryList"] = categories;
-                return categories;
-            }
-        }        
+            List<CategoryDTO> categories = _service.GetAll().AsQueryable().Select(ToDto()).ToList();
+            HttpContext.Current.Cache["CategoryList"] = categories;
+            return categories;
+        }
+
+        private static Expression<Func<Category, CategoryDTO>> ToDto()
+        {
+            return c => new CategoryDTO { CategoryId = c.Id, CategoryName = c.CategoryName };
+        }
 
         // GET api/<controller>/5
         public CategoryDTO Get(int id)
         {
             if (HttpContext.Current.Cache["Category" + id] != null)
                 return (CategoryDTO)HttpContext.Current.Cache["Category" + id];
-            using (OnlineStoreDBContext context = new OnlineStoreDBContext())
-            {
-                Category c = context.Categories.Find(id);
-                CategoryDTO category = new CategoryDTO { CategoryId = c.Id, CategoryName = c.CategoryName };
-                HttpContext.Current.Cache["Category" + id] = category;
-                return category;
-            }
+            var c = _service.Get(id);
+            CategoryDTO category = new CategoryDTO { CategoryId = c.Id, CategoryName = c.CategoryName };
+            HttpContext.Current.Cache["Category" + id] = category;
+            return category;
         }
 
         // GET: api/Category/GetCount/
@@ -54,12 +57,9 @@ namespace OnlineStore.WebUI.Apis
             }
             else
             {
-                using (OnlineStoreDBContext context = new OnlineStoreDBContext())
-                {
-                    List<CategoryDTO> categories = context.Categories.Select(c => new CategoryDTO { CategoryId = c.Id, CategoryName = c.CategoryName }).ToList();
-                    HttpContext.Current.Cache["CategoryList"] = categories;
-                    return categories.Count();
-                }
+                List<CategoryDTO> categories = _service.GetAll().AsQueryable().Select(ToDto()).ToList();
+                HttpContext.Current.Cache["CategoryList"] = categories;
+                return categories.Count();
             }
         }
 
@@ -72,20 +72,16 @@ namespace OnlineStore.WebUI.Apis
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "Category Name can't be empty!");
             }            
 
-            using (OnlineStoreDBContext context = new OnlineStoreDBContext())
+            bool exist = _service.Exists(c => c.CategoryName.Equals(value.CategoryName, StringComparison.OrdinalIgnoreCase));
+            if (exist)
             {
-                bool exist = context.Categories.Any(c => c.CategoryName.Equals(value.CategoryName, StringComparison.OrdinalIgnoreCase));
-                if (exist)
-                {
-                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Category ["+ value.CategoryName + "] already exists, please try another name!");
-                }
-                Category category = context.Categories.Create();
-                category.CategoryName = value.CategoryName;
-                context.Categories.Add(category);
-                context.SaveChanges();
-                HttpContext.Current.Cache.Remove("CategoryList");
-                return Request.CreateResponse(HttpStatusCode.OK);
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Category ["+ value.CategoryName + "] already exists, please try another name!");
             }
+
+            Category category = new Category { CategoryName = value.CategoryName };
+            _service.Add(category);
+            HttpContext.Current.Cache.Remove("CategoryList");
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
 
         //PUT REMOVED
@@ -97,45 +93,45 @@ namespace OnlineStore.WebUI.Apis
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "Category Name can't be empty!");
             }
 
-            using (OnlineStoreDBContext context = new OnlineStoreDBContext())
+            bool exist = _service.Exists(c => c.Id == value.CategoryId);
+            if (!exist)
             {
-                bool exist = context.Categories.Any(c => c.Id == value.CategoryId);
-                if (!exist)
-                {
-                    return Request.CreateResponse(HttpStatusCode.NotFound, "Category ["+value.CategoryId+"] does not exist!");
-                }
-                
-                exist = context.Categories.Where(c => c.Id != value.CategoryId).Any(c => c.CategoryName.Equals(value.CategoryName, StringComparison.OrdinalIgnoreCase));
-                if (exist)
-                {
-                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Category [" + value.CategoryName + "] already exists, please try another name!");
-                }
-                var category = context.Categories.Find(value.CategoryId);
-                category.CategoryName = value.CategoryName;
-                context.SaveChanges();
-                HttpContext.Current.Cache.Remove("CategoryList");
-                HttpContext.Current.Cache.Remove("Category" + value.CategoryId);
-                return Request.CreateResponse(HttpStatusCode.OK, "Okay");
+                return Request.CreateResponse(HttpStatusCode.NotFound, "Category ["+value.CategoryId+"] does not exist!");
             }
+                
+            exist = _service.GetAll()
+                .Where(c => c.Id != value.CategoryId)
+                .Any(c => c.CategoryName.Equals(value.CategoryName, StringComparison.OrdinalIgnoreCase));
+            if (exist)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest,
+                    "Category [" + value.CategoryName + "] already exists, please try another name!");
+            }
+
+            var category = _service.Get(value.CategoryId);
+            category.CategoryName = value.CategoryName;
+            _service.Update(category);
+
+            HttpContext.Current.Cache.Remove("CategoryList");
+            HttpContext.Current.Cache.Remove("Category" + value.CategoryId);
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
 
         // DELETE api/<controller>/5
         public HttpResponseMessage Delete(int id)
         {
-            using (OnlineStoreDBContext context = new OnlineStoreDBContext())
+            var productService = new ProductService();
+            bool exist = productService.Exists(p => p.CategoryId == id);
+            if (exist)
             {
-                bool exist = context.Products.Any(p => p.CategoryId == id);
-                if (exist)
-                {
-                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Theis product belongs to Category [" + id + "], delete them first!");
-                }
-                var category = context.Categories.Find(id);
-                context.Categories.Remove(category);
-                context.SaveChanges();
-                HttpContext.Current.Cache.Remove("CategoryList");
-                HttpContext.Current.Cache.Remove("Category" + id);
-                return Request.CreateResponse(HttpStatusCode.OK);
+                return Request.CreateResponse(HttpStatusCode.BadRequest,
+                    "Theis product belongs to Category [" + id + "], delete them first!");
             }
+
+            _service.Delete(id);
+            HttpContext.Current.Cache.Remove("CategoryList");
+            HttpContext.Current.Cache.Remove("Category" + id);
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
     }
 }

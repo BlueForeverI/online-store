@@ -281,7 +281,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Apis\AccountController.cs" />
     <Compile Include="Apis\BaseApiController.cs" />
     <Compile Include="Apis\OrderController.cs" />
     <Compile Include="Apis\UserController.cs" />
@@ -374,6 +373,10 @@
     <ProjectReference Include="..\OnlineStore.Extension\OnlineStore.Extension.csproj">
       <Project>{e3686e98-b47f-42f7-8db6-2cf476fbf652}</Project>
       <Name>OnlineStore.Extension</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OnlineStore.Services\OnlineStore.Services.csproj">
+      <Project>{519362B1-A7B3-432A-9A67-69165C4CF49F}</Project>
+      <Name>OnlineStore.Services</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
