@@ -8,10 +8,10 @@ using OnlineStore.Domain.Infrastructure;
 using OnlineStore.Domain.Model;
 using System.Net.Http;
 using System.Net;
-using OnlineStore.WebUI.Areas.Admin.Models.DTO;
 using OnlineStore.WebUI.Areas.Admin.Models;
 using System.Linq.Expressions;
 using OnlineStore.Services;
+using OnlineStore.Services.DTO;
 
 namespace OnlineStore.WebUI.Apis
 {

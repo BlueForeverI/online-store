@@ -294,12 +294,6 @@
     <Compile Include="Apis\ProductController.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
-    <Compile Include="Areas\Admin\Models\DTO\CategoryDTO.cs" />
-    <Compile Include="Areas\Admin\Models\DTO\OrderDTO.cs" />
-    <Compile Include="Areas\Admin\Models\DTO\OrderItemDTO.cs" />
-    <Compile Include="Areas\Admin\Models\DTO\ProductOrderDTO.cs" />
-    <Compile Include="Areas\Admin\Models\DTO\UserDTO.cs" />
-    <Compile Include="Areas\Admin\Models\DTO\RoleDTO.cs" />
     <Compile Include="Areas\Admin\Models\CategoryViewModel.cs" />
     <Compile Include="Areas\Admin\Models\RoleViewModel.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -325,7 +319,6 @@
     <Compile Include="Models\ViewModels\CartViewModel.cs" />
     <Compile Include="Areas\Admin\Models\UserViewModel.cs" />
     <Compile Include="Areas\Admin\Models\ProductViewModel.cs" />
-    <Compile Include="Areas\Admin\Models\DTO\ProductDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -353,6 +346,7 @@
     <Content Include="Views\Account\MemberProfile.cshtml" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
     <Content Include="Views\Product\MyProductOrders.cshtml" />
+    <Content Include="Views\Account\RegistrationSuccessful.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -363,7 +357,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Views\Shared\" />
-    <Folder Include="Models\DTO\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OnlineStore.Domain\OnlineStore.Domain.csproj">

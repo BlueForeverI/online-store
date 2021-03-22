@@ -8,7 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using OnlineStore.Domain.Identity;
 using OnlineStore.WebUI.Controllers;
-using OnlineStore.WebUI.Areas.Admin.Models.DTO;
+using OnlineStore.Services.DTO;
 
 namespace OnlineStore.WebUI.Areas.Admin.Controllers
 {

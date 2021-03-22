@@ -2,7 +2,6 @@
 using OnlineStore.Domain.Identity;
 using OnlineStore.Domain.Infrastructure;
 using OnlineStore.Domain.Model;
-using OnlineStore.WebUI.Areas.Admin.Models.DTO;
 using OnlineStore.WebUI.Helper;
 using OnlineStore.WebUI.Models;
 using Microsoft.AspNet.Identity;
@@ -15,11 +14,15 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using OnlineStore.Services.DTO;
+using OnlineStore.Services;
 
 namespace OnlineStore.WebUI.Controllers
 {
     public class AccountController : BaseController
     {
+        private UserService _service = new UserService();
+
         //
         // GET: /Account/Register
         [AllowAnonymous]
@@ -47,9 +50,11 @@ namespace OnlineStore.WebUI.Controllers
                     ModelState.AddModelError("", "The User Name you specified is already existing! Please try with another user name!");
                     return View(model);
                 }
+
+                _service.Register(model.Email, model.Password, model.UserName, model.Membership);
                 Session["Register"] = model;
 
-                return View(model);
+                return View("RegistrationSuccessful");
             }
 
             // If we got this far, something failed, redisplay form
@@ -60,8 +65,8 @@ namespace OnlineStore.WebUI.Controllers
         //[ValidateAntiForgeryToken]
         public async Task<ActionResult> ProcessCreditResponse(String TransId, String TransAmount, String StatusCode, String AppHash)
         {
-            String AppId = ConfigurationHelper.GetAppId();
-            String SharedKey = ConfigurationHelper.GetSharedKey();
+            string AppId = ConfigurationHelper.GetAppId();
+            string SharedKey = ConfigurationHelper.GetSharedKey();
 
             if (CreditAuthorizationClient.VerifyServerResponseHash(AppHash, SharedKey, AppId, TransId, TransAmount, StatusCode))
             {
@@ -133,8 +138,6 @@ namespace OnlineStore.WebUI.Controllers
                 return View(model);
             }
 
-            // This doesn't count login failures towards account lockout
-            // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {

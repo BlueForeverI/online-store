@@ -5,9 +5,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace OnlineStore.WebUI.Areas.Admin.Models.DTO
+namespace OnlineStore.Services.DTO
 {
-    public class ProductOrderDTO : Product
+    public class ProductDTO : Product
     {
         public string CategoryName { get; set; }
 
@@ -15,7 +15,5 @@ namespace OnlineStore.WebUI.Areas.Admin.Models.DTO
         {
             return Price * (100 - Discount) / 100;
         }
-
-        public IEnumerable<OrderDTO> Orders { get; set; }
     }
 }

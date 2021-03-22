@@ -1,12 +1,8 @@
 ﻿using OnlineStore.Domain.Identity;
-using OnlineStore.Domain.Infrastructure;
 using OnlineStore.WebUI.Areas.Admin.Models;
-using OnlineStore.WebUI.Areas.Admin.Models.DTO;
 using OnlineStore.WebUI.Helper;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.Owin.Security;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -14,6 +10,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using OnlineStore.Services.DTO;
 
 namespace OnlineStore.WebUI.Apis
 {
@@ -29,7 +26,11 @@ namespace OnlineStore.WebUI.Apis
             }
             else
             {
-                List<UserDTO> users = UserManager.Users.Select(u => new UserDTO { Id = u.Id, Email = u.Email, UserName = u.UserName, Membership = u.Membership }).ToList();
+                List<UserDTO> users = UserManager
+                    .Users
+                    .Select(u => new UserDTO { 
+                        Id = u.Id, Email = u.Email, UserName = u.UserName, Membership = u.Membership 
+                    }).ToList();
                 HttpContext.Current.Cache["UserList"] = users;
                 return users;
             }
@@ -45,7 +46,9 @@ namespace OnlineStore.WebUI.Apis
             else
             {
                 AppUser u = UserManager.FindById(id);
-                UserDTO user = new UserDTO { Id = u.Id, Email = u.Email, UserName = u.UserName, Membership = u.Membership };
+                UserDTO user = new UserDTO { 
+                    Id = u.Id, Email = u.Email, UserName = u.UserName, Membership = u.Membership 
+                };
                 HttpContext.Current.Cache["User" + id] = user;
                 return user;
             }            
@@ -62,7 +65,11 @@ namespace OnlineStore.WebUI.Apis
             }
             else
             {
-                List<UserDTO> users = UserManager.Users.Select(u => new UserDTO { Id = u.Id, Email = u.Email, UserName = u.UserName, Membership = u.Membership }).ToList();
+                List<UserDTO> users = UserManager
+                    .Users
+                    .Select(u => new UserDTO { 
+                        Id = u.Id, Email = u.Email, UserName = u.UserName, Membership = u.Membership 
+                    }).ToList();
                 HttpContext.Current.Cache["UserList"] = users;
                 return users.Count();
             }
@@ -73,8 +80,11 @@ namespace OnlineStore.WebUI.Apis
         {
             if (ModelState.IsValid)
             {
-                var user = new AppUser { Email = value.Email, UserName = value.UserName, Membership = value.Membership };
-                var result = await UserManager.CreateAsync(user, ConfigurationHelper.GetDefaultPassword());
+                var user = new AppUser { 
+                    Email = value.Email, UserName = value.UserName, Membership = value.Membership 
+                };
+                var result = await UserManager.CreateAsync(user, 
+                    ConfigurationHelper.GetDefaultPassword());
                 if (result.Succeeded)
                 {
                     HttpContext.Current.Cache.Remove("UserList");
@@ -82,7 +92,8 @@ namespace OnlineStore.WebUI.Apis
                 }
                 else
                 {
-                    return Request.CreateResponse(HttpStatusCode.BadRequest, GetErrorMessage(result));
+                    return Request.CreateResponse(HttpStatusCode.BadRequest,
+                        GetErrorMessage(result));
                 }                            
             }
             else
@@ -97,7 +108,8 @@ namespace OnlineStore.WebUI.Apis
                 AppUser user = UserManager.FindById(value.Id);
                 if (user == null)
                 {
-                    return Request.CreateResponse(HttpStatusCode.NotFound, "User [" + value.Id + "] does not exist!");
+                    return Request.CreateResponse(HttpStatusCode.NotFound,
+                        "User [" + value.Id + "] does not exist!");
                 }
                 user.UserName = value.UserName;
                 user.Membership = value.Membership;
@@ -113,7 +125,8 @@ namespace OnlineStore.WebUI.Apis
                 }
                 else
                 {
-                    return Request.CreateResponse(HttpStatusCode.BadRequest, GetErrorMessage(result));
+                    return Request.CreateResponse(HttpStatusCode.BadRequest,
+                        GetErrorMessage(result));
                 }
             }
             else
@@ -141,7 +154,8 @@ namespace OnlineStore.WebUI.Apis
                 }
                 else
                 {
-                    return Request.CreateResponse(HttpStatusCode.BadRequest, GetErrorMessage(result));
+                    return Request.CreateResponse(HttpStatusCode.BadRequest,
+                        GetErrorMessage(result));
                 }
             }            
         }

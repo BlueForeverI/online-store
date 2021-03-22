@@ -62,5 +62,13 @@ namespace OnlineStore.Services
                 return ctx.Set<T>().Any(predicate);
             }
         }
+
+        public int Count()
+        {
+            using (var ctx = new OnlineStoreDBContext())
+            {
+                return ctx.Set<T>().Count();
+            }
+        }
     }
 }

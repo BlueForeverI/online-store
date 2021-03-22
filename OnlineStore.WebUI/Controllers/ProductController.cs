@@ -1,12 +1,12 @@
 ﻿using OnlineStore.Domain.Infrastructure;
 using OnlineStore.Domain.Model;
-using OnlineStore.WebUI.Areas.Admin.Models.DTO;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using OnlineStore.Services.DTO;
 
 namespace OnlineStore.WebUI.Controllers
 {    

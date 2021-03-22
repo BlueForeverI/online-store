@@ -1,7 +1,5 @@
 ﻿using OnlineStore.Domain.Identity;
-using OnlineStore.Domain.Infrastructure;
 using OnlineStore.WebUI.Areas.Admin.Models;
-using OnlineStore.WebUI.Areas.Admin.Models.DTO;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
@@ -10,6 +8,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http;
+using OnlineStore.Services.DTO;
 
 namespace OnlineStore.WebUI.Apis
 {
@@ -25,7 +24,11 @@ namespace OnlineStore.WebUI.Apis
             }
             else
             {
-                List<RoleDTO> roles = RoleManager.Roles.Select(r => new RoleDTO { Id = r.Id, Name = r.Name, Description = r.Description }).ToList();
+                List<RoleDTO> roles = RoleManager
+                    .Roles
+                    .Select(r => new RoleDTO { 
+                        Id = r.Id, Name = r.Name, Description = r.Description 
+                    }).ToList();
                 HttpContext.Current.Cache["RoleList"] = roles;
                 return roles;
             }
@@ -41,7 +44,9 @@ namespace OnlineStore.WebUI.Apis
             else
             {
                 AppRole r = RoleManager.FindById(id);
-                RoleDTO role = new RoleDTO { Id = r.Id, Name = r.Name, Description = r.Description };
+                RoleDTO role = new RoleDTO { 
+                    Id = r.Id, Name = r.Name, Description = r.Description 
+                };
                 HttpContext.Current.Cache["Role" + id] = role;
                 return role;
             }            
@@ -58,7 +63,11 @@ namespace OnlineStore.WebUI.Apis
             }
             else
             {
-                List<RoleDTO> roles = RoleManager.Roles.Select(r => new RoleDTO { Id = r.Id, Name = r.Name, Description = r.Description }).ToList();
+                List<RoleDTO> roles = RoleManager
+                    .Roles
+                    .Select(r => new RoleDTO { 
+                        Id = r.Id, Name = r.Name, Description = r.Description 
+                    }).ToList();
                 HttpContext.Current.Cache["RoleList"] = roles;
                 return roles.Count();
             }
@@ -72,7 +81,8 @@ namespace OnlineStore.WebUI.Apis
                 AppRole existRole = RoleManager.FindByName(value.Name);
                 if (existRole != null)
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, "Role [" + value.Name + "] is already existed, please try another name!");
+                    return Request.CreateResponse(HttpStatusCode.BadRequest,
+                        "Role [" + value.Name + "] already exists, please try another name!");
                 }
 
                 AppRole role = new AppRole();
@@ -101,7 +111,8 @@ namespace OnlineStore.WebUI.Apis
                 AppRole role = RoleManager.FindById(value.Id);
                 if (role == null)
                 {
-                    return Request.CreateResponse(HttpStatusCode.NotFound, "Role [" + value.Id + "] does not exist!");
+                    return Request.CreateResponse(HttpStatusCode.NotFound,
+                        "Role [" + value.Id + "] does not exist!");
                 }
                 role.Name = value.Name;
                 role.Description = value.Description;
@@ -114,7 +125,8 @@ namespace OnlineStore.WebUI.Apis
                 }
                 else
                 {
-                    return Request.CreateResponse(HttpStatusCode.BadRequest, GetErrorMessage(result));
+                    return Request.CreateResponse(HttpStatusCode.BadRequest,
+                        GetErrorMessage(result));
                 }
             }
             else
@@ -129,11 +141,13 @@ namespace OnlineStore.WebUI.Apis
             AppRole role = RoleManager.FindById(id);
             if (role == null)
             {
-                return Request.CreateResponse(HttpStatusCode.NotFound, "Role ["+id+"] not found.");
+                return Request.CreateResponse(HttpStatusCode.NotFound,
+                    "Role ["+id+"] not found.");
             }
             else if (role.Users.Count > 0)
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, "Users are assigned to role [" + role.Name + "], remove them first!");
+                return Request.CreateResponse(HttpStatusCode.BadRequest,
+                    "Users are assigned to role [" + role.Name + "], remove them first!");
             }
             else
             {
@@ -146,7 +160,8 @@ namespace OnlineStore.WebUI.Apis
                 }
                 else
                 {
-                    return Request.CreateResponse(HttpStatusCode.BadRequest, GetErrorMessage(result));
+                    return Request.CreateResponse(HttpStatusCode.BadRequest,
+                        GetErrorMessage(result));
                 }
             }            
         }

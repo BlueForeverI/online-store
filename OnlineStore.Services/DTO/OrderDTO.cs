@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace OnlineStore.WebUI.Areas.Admin.Models.DTO
+namespace OnlineStore.Services.DTO
 {
     public class OrderDTO
     {
@@ -17,7 +17,7 @@ namespace OnlineStore.WebUI.Areas.Admin.Models.DTO
         public string State { get; set; }
         public string Zip { get; set; }
         public string ConfirmationNumber { get; set; }
-        public DateTime DeliveryDate { get; set; }        
+        public DateTime DeliveryDate { get; set; }
         public List<OrderItemDTO> Items { get; set; }
     }
 }
