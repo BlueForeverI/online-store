@@ -18,12 +18,6 @@ namespace OnlineStore.WebUI.Controllers
         private AppUserManager _userManager;
         private AppRoleManager _roleManager;
         private AppSignInManager _signInManager;        
-
-        //public BaseController(AppUserManager userManager, AppSignInManager signInManager)
-        //{
-        //    UserManager = userManager;
-        //    SignInManager = signInManager;
-        //}
         
         public AppUserManager UserManager
         {

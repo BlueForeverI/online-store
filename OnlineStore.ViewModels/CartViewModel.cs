@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace OnlineStore.WebUI.Models
+namespace OnlineStore.ViewModels
 {
     public class CartViewModel
     {

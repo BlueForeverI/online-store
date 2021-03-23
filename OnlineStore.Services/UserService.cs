@@ -29,5 +29,13 @@ namespace OnlineStore.Services
                 context.SaveChanges();
             }
         }
+
+        public AppUser Get(string userId)
+        {
+            using (OnlineStoreDBContext context = new OnlineStoreDBContext())
+            {
+                return context.Users.Find(userId);
+            }
+        }
     }
 }

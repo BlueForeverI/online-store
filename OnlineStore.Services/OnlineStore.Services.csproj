@@ -77,6 +77,10 @@
       <Project>{89668e5c-bfae-41ed-913f-b039c6898b27}</Project>
       <Name>OnlineStore.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\OnlineStore.ViewModels\OnlineStore.ViewModels.csproj">
+      <Project>{f075dd7d-bb7c-4a0a-988d-9e2e0ea480fe}</Project>
+      <Name>OnlineStore.ViewModels</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

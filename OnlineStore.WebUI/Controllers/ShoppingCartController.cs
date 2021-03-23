@@ -9,12 +9,17 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using OnlineStore.Services;
+using OnlineStore.ViewModels;
 
 namespace OnlineStore.WebUI.Controllers
 {
     [Authorize]
     public class ShoppingCartController : Controller
     {
+        private ProductService _productService = new ProductService();
+        private OrderService _orderService = new OrderService();
+
         // GET: ShoppingCart
         public ActionResult Index()
         {
@@ -35,19 +40,17 @@ namespace OnlineStore.WebUI.Controllers
                 cart = new ShoppingCart();
                 Session["ShoppingCart"] = cart;
             }
-            using (OnlineStoreDBContext context = new OnlineStoreDBContext())
+
+            Product product = _productService.Get(value.Id);
+            if (product != null)
             {
-                Product product = context.Products.Find(value.Id);
-                if (product != null)
+                if (value.Quantity == 0)
                 {
-                    if (value.Quantity == 0)
-                    {
-                        cart.AddItem(value.Id, product);
-                    }
-                    else
-                    {
-                        cart.SetItemQuantity(value.Id, value.Quantity, product);
-                    }
+                    cart.AddItem(value.Id, product);
+                }
+                else
+                {
+                    cart.SetItemQuantity(value.Id, value.Quantity, product);
                 }
             }
 
@@ -89,8 +92,8 @@ namespace OnlineStore.WebUI.Controllers
 
         public ActionResult ProcessCreditResponse(String TransId, String TransAmount, String StatusCode, String AppHash)
         {
-            String AppId = ConfigurationHelper.GetAppId2();
-            String SharedKey = ConfigurationHelper.GetSharedKey2();
+            string AppId = ConfigurationHelper.GetAppId2();
+            string SharedKey = ConfigurationHelper.GetSharedKey2();
 
             if (CreditAuthorizationClient.VerifyServerResponseHash(AppHash, SharedKey, AppId, TransId, TransAmount, StatusCode))
             {
@@ -116,42 +119,29 @@ namespace OnlineStore.WebUI.Controllers
                 {                    
                     try
                     {
-                        using (OnlineStoreDBContext context = new OnlineStoreDBContext())
-                        {
-                            Order newOrder = context.Orders.Create();
-                            newOrder.FullName = value.FullName;
-                            newOrder.Address = value.Address;
-                            newOrder.City = value.City;
-                            newOrder.State = value.State;
-                            newOrder.Zip = value.Zip;
-                            newOrder.DeliveryDate = DateTime.Now.AddDays(14);
-                            newOrder.ConfirmationNumber = DateTime.Now.ToString("yyyyMMddHHmmss");
-                            newOrder.UserId = User.Identity.GetUserId();
-                            context.Orders.Add(newOrder);
-                            cart.GetItems().ForEach(c => context.OrderItems.Add(new OrderItem { OrderId = newOrder.Id, ProductId = c.GetItemId(), Quantity = c.Quantity }));
-                            context.SaveChanges();
-                            System.Web.HttpContext.Current.Cache.Remove("OrderList");
-                            Session["ShoppingCart"] = null;
-                            Session["CartCount"] = 0;
-                            Session["OrderCount"] = (int)Session["OrderCount"] + 1;
+                        Order newOrder = new Order();
+                        newOrder.FullName = value.FullName;
+                        newOrder.Address = value.Address;
+                        newOrder.City = value.City;
+                        newOrder.State = value.State;
+                        newOrder.Zip = value.Zip;
+                        newOrder.DeliveryDate = DateTime.Now.AddDays(14);
+                        newOrder.ConfirmationNumber = DateTime.Now.ToString("yyyyMMddHHmmss");
+                        newOrder.UserId = User.Identity.GetUserId();
+                        newOrder = _orderService.Add(newOrder);
 
-                            var order = from o in context.Orders
-                                        join u in context.Users
-                                          on o.UserId equals u.Id
-                                        where o.Id == newOrder.Id
-                                        select new { o.Id, o.UserId, u.UserName, o.FullName, o.Address, o.City, o.State, o.Zip, o.ConfirmationNumber, o.DeliveryDate };
-                            var ord = order.FirstOrDefault();
-                            model = new OrderViewModel { OrderId = ord.Id, UserId = ord.UserId, UserName = ord.UserName, FullName = ord.FullName, Address = ord.Address, City = ord.City, State = ord.State, Zip = ord.Zip, ConfirmationNumber = ord.ConfirmationNumber, DeliveryDate = ord.DeliveryDate };
+                        cart.GetItems().ForEach(c => 
+                            _orderService.AddOrderItem(
+                                new OrderItem { OrderId = newOrder.Id, ProductId = c.GetItemId(), 
+                                    Quantity = c.Quantity 
+                                }));
+                        System.Web.HttpContext.Current.Cache.Remove("OrderList");
+                        Session["ShoppingCart"] = null;
+                        Session["CartCount"] = 0;
+                        Session["OrderCount"] = (int)Session["OrderCount"] + 1;
 
-                            var orderitems = from i in context.OrderItems
-                                             join p in context.Products
-                                               on i.ProductId equals p.Id
-                                             join c in context.Categories
-                                               on p.CategoryId equals c.Id
-                                             where i.OrderId == newOrder.Id
-                                             select new { i.Id, i.OrderId, i.ProductId, p.ProductName, p.CategoryId, c.CategoryName, p.Price, p.Image, p.Condition, p.Discount, i.Quantity };
-                            model.Items = orderitems.Select(o => new OrderItemViewModel { OrderItemId = o.Id, OrderId = o.OrderId, ProductId = o.ProductId, ProductName = o.ProductName, CategoryId = o.CategoryId, CategoryName = o.CategoryName, Price = o.Price, Image = o.Image, Condition = o.Condition, Discount = o.Discount, Quantity = o.Quantity }).ToList();
-                        }
+                        model = _orderService.GetOrderViewModel(newOrder.Id);
+                        model.Items = _orderService.GetOrderItemViewModels(newOrder.Id);
                     }
                     catch (Exception ex)
                     {

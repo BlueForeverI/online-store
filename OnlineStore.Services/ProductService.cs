@@ -48,6 +48,19 @@ namespace OnlineStore.Services
             }
         }
 
+        public List<ProductOrderDTO> GetUserProductOrdersDTOs(string userId)
+        {
+            using (OnlineStoreDBContext context = new OnlineStoreDBContext())
+            {
+                var query = from product in context.Products
+                            where product.UserId == userId
+                            join category in context.Categories
+                              on product.CategoryId equals category.Id
+                            select new ProductOrderDTO { Id = product.Id, ProductName = product.ProductName, CategoryId = product.CategoryId, CategoryName = category.CategoryName, Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount, UserId = product.UserId };
+                return query.ToList();
+            }
+        }
+
         public List<ProductDTO> GetUserProductDTOsByCategory(string userId, int categoryId)
         {
             using (OnlineStoreDBContext context = new OnlineStoreDBContext())
@@ -69,6 +82,32 @@ namespace OnlineStore.Services
                 return (from product in context.Products
                             where product.ProductName.ToLower().Contains(name.ToLower())
                             select product.ProductName).ToList();
+            }
+        }
+
+        public List<ProductDTO> GetProductDTOsByName(string name)
+        {
+            using (OnlineStoreDBContext context = new OnlineStoreDBContext())
+            {
+                var query = from product in context.Products
+                            where product.ProductName.ToLower().Contains(name.ToLower())
+                            join category in context.Categories
+                              on product.CategoryId equals category.Id
+                            select new ProductDTO { Id = product.Id, ProductName = product.ProductName, CategoryId = product.CategoryId, CategoryName = category.CategoryName, Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount, UserId = product.UserId };
+                return query.ToList();
+            }
+        }
+
+        public ProductDTO GetProductDTO(int id)
+        {
+            using (OnlineStoreDBContext context = new OnlineStoreDBContext())
+            {
+                var query = from product in context.Products
+                            where product.Id == id
+                            join category in context.Categories
+                              on product.CategoryId equals category.Id
+                            select new ProductDTO { Id = product.Id, ProductName = product.ProductName, CategoryId = product.CategoryId, CategoryName = category.CategoryName, Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount, UserId = product.UserId };
+                return query.FirstOrDefault();
             }
         }
     }

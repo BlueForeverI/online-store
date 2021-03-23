@@ -1,27 +1,21 @@
-﻿using OnlineStore.Domain;
-using OnlineStore.Domain.Identity;
-using OnlineStore.Domain.Infrastructure;
-using OnlineStore.Domain.Model;
+﻿using OnlineStore.Domain.Identity;
 using OnlineStore.WebUI.Helper;
-using OnlineStore.WebUI.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 using OnlineStore.Services.DTO;
 using OnlineStore.Services;
+using OnlineStore.ViewModels;
 
 namespace OnlineStore.WebUI.Controllers
 {
     public class AccountController : BaseController
     {
-        private UserService _service = new UserService();
+        private UserService _userService = new UserService();
+        private OrderService _orderService = new OrderService();
 
         //
         // GET: /Account/Register
@@ -51,7 +45,7 @@ namespace OnlineStore.WebUI.Controllers
                     return View(model);
                 }
 
-                _service.Register(model.Email, model.Password, model.UserName, model.Membership);
+                _userService.Register(model.Email, model.Password, model.UserName, model.Membership);
                 Session["Register"] = model;
 
                 return View("RegistrationSuccessful");
@@ -98,11 +92,6 @@ namespace OnlineStore.WebUI.Controllers
 
                         System.Web.HttpContext.Current.Cache.Remove("UserList");
                         Session["Register"] = null;
-                        // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                        // Send an email with this link
-                        // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                        // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                        // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
                         return RedirectToAction("Index", "Home");
                     }
@@ -177,11 +166,7 @@ namespace OnlineStore.WebUI.Controllers
 
         private void GetOrderCount(string id)
         {
-            int count = 0;
-            using (OnlineStoreDBContext context = new OnlineStoreDBContext())
-            {
-                count = context.Orders.Where(o => o.UserId == id).Count();
-            }
+            int count = _orderService.CountUserOrders(id);
             Session["OrderCount"] = count;
             Session["CartCount"] = 0;
         }
@@ -189,12 +174,10 @@ namespace OnlineStore.WebUI.Controllers
         [Authorize]
         public ActionResult MemberProfile()
         {
-            UserDTO user = new UserDTO();
-            using (OnlineStoreDBContext context = new OnlineStoreDBContext())
-            {
-                AppUser u = context.Users.Find(User.Identity.GetUserId());
-                user = new UserDTO { Id = u.Id, Email = u.Email, UserName = u.UserName, Membership = u.Membership };
-            }
+            AppUser u = _userService.Get(User.Identity.GetUserId());
+            UserDTO user = new UserDTO { 
+                Id = u.Id, Email = u.Email, UserName = u.UserName, Membership = u.Membership 
+            };
             return View(user);
         }
 
