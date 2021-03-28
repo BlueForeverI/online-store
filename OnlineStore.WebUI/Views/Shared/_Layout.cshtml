@@ -37,9 +37,19 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li class="@Html.IsSelected(actions: "Console", controllers: "Product")">@Html.ActionLink("Console", "Console", "Product", new { area = "" }, null)</li>
-                    <li class="@Html.IsSelected(actions: "Accessory", controllers: "Product")">@Html.ActionLink("Accessory", "Accessory", "Product", new { area = "" }, null)</li>
-                    <li class="@Html.IsSelected(actions: "Game", controllers: "Product")">@Html.ActionLink("Game", "Game", "Product", new { area = "" }, null)</li>                    
+                    <li class="@Html.IsSelected(actions: "Index", controllers: "Product")">@Html.ActionLink("All Products", "Index", "Product", new { area = "" }, null)</li>
+                    <li class="@Html.IsSelected(actions: "Category", controllers: "Product")">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Categories<span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("Consoles", "Category", "Product", new { area = "", id = 1 }, null)</li>
+                                    <li>@Html.ActionLink("Games", "Category", "Product", new { area = "", id = 3 }, null)</li>
+                                    <li>@Html.ActionLink("Accessories", "Category", "Product", new { area = "", id = 2 }, null)</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

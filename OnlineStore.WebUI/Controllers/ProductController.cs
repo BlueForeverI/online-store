@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using OnlineStore.Services.DTO;
 using OnlineStore.Services;
+using System.Linq;
 
 namespace OnlineStore.WebUI.Controllers
 {    
@@ -14,22 +15,17 @@ namespace OnlineStore.WebUI.Controllers
         private CategoryService _categoryService = new CategoryService();
         private OrderService _orderService = new OrderService();
 
-        public ActionResult Console()
+        public ActionResult Index()
         {
-            List<ProductDTO> list = GetProductsByCategory(1);
-            ViewBag.Title = "Console";
+            List<ProductDTO> list = _productService.GetProductDTOs();
+            ViewBag.Title = "All Products";
             return View("List", list);
         }
-        public ActionResult Accessory()
+
+        public ActionResult Category(int id)
         {
-            List<ProductDTO> list = GetProductsByCategory(2);
-            ViewBag.Title = "Accessory";
-            return View("List", list);
-        }
-        public ActionResult Game()
-        {
-            List<ProductDTO> list = GetProductsByCategory(3);
-            ViewBag.Title = "Game";
+            List<ProductDTO> list = GetProductsByCategory(id);
+            ViewBag.Title = list.FirstOrDefault()?.CategoryName;
             return View("List", list);
         }
 
@@ -49,17 +45,16 @@ namespace OnlineStore.WebUI.Controllers
             return list;
         }
 
-        public ActionResult Search(string productname)
+        public ActionResult Search(string productName, double? priceFrom, double? priceTo)
         {
             var list = new List<ProductDTO>();
-
-            if (string.IsNullOrEmpty(productname))
+            if (string.IsNullOrEmpty(productName))
             {
-                list = _productService.GetProductDTOs();
+                list = _productService.GetProductDTOsByPrice(priceFrom, priceTo);
             }
             else
             {
-                list = _productService.GetProductDTOsByName(productname);
+                list = _productService.GetProductDTOsByNameAndPrice(productName, priceFrom, priceTo);
             }
             ViewBag.Title = "Search Result";
             return View("List", list);

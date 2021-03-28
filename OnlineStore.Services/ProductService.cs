@@ -70,7 +70,8 @@ namespace OnlineStore.Services
                                && product.UserId == userId
                             join category in context.Categories
                               on product.CategoryId equals category.Id
-                            select new ProductDTO { Id = product.Id, ProductName = product.ProductName, CategoryId = product.CategoryId, CategoryName = category.CategoryName, Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount, UserId = product.UserId };
+                            select new ProductDTO { Id = product.Id, ProductName = product.ProductName, CategoryId = product.CategoryId, CategoryName = category.CategoryName,
+                                Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount, UserId = product.UserId };
                 return query.ToList();
             }
         }
@@ -85,15 +86,51 @@ namespace OnlineStore.Services
             }
         }
 
-        public List<ProductDTO> GetProductDTOsByName(string name)
+        public List<ProductDTO> GetProductDTOsByNameAndPrice(string name, double? fromPrice, double? toPrice)
         {
+            if (fromPrice == null)
+                fromPrice = 0;
+            if (toPrice == null)
+                toPrice = double.MaxValue;
+
             using (OnlineStoreDBContext context = new OnlineStoreDBContext())
             {
                 var query = from product in context.Products
                             where product.ProductName.ToLower().Contains(name.ToLower())
+                                && product.Price >= fromPrice && product.Price <= toPrice
                             join category in context.Categories
                               on product.CategoryId equals category.Id
-                            select new ProductDTO { Id = product.Id, ProductName = product.ProductName, CategoryId = product.CategoryId, CategoryName = category.CategoryName, Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount, UserId = product.UserId };
+                            select new ProductDTO { Id = product.Id, ProductName = product.ProductName, CategoryId = product.CategoryId, CategoryName = category.CategoryName,
+                                Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount, UserId = product.UserId };
+                return query.ToList();
+            }
+        }
+
+        public List<ProductDTO> GetProductDTOsByPrice(double? fromPrice, double? toPrice)
+        {
+            if (fromPrice == null)
+                fromPrice = 0;
+            if (toPrice == null)
+                toPrice = double.MaxValue;
+
+            using (OnlineStoreDBContext context = new OnlineStoreDBContext())
+            {
+                var query = from product in context.Products
+                            where product.Price >= fromPrice && product.Price <= toPrice
+                            join category in context.Categories
+                              on product.CategoryId equals category.Id
+                            select new ProductDTO
+                            {
+                                Id = product.Id,
+                                ProductName = product.ProductName,
+                                CategoryId = product.CategoryId,
+                                CategoryName = category.CategoryName,
+                                Price = product.Price,
+                                Image = product.Image,
+                                Condition = product.Condition,
+                                Discount = product.Discount,
+                                UserId = product.UserId
+                            };
                 return query.ToList();
             }
         }
@@ -106,7 +143,8 @@ namespace OnlineStore.Services
                             where product.Id == id
                             join category in context.Categories
                               on product.CategoryId equals category.Id
-                            select new ProductDTO { Id = product.Id, ProductName = product.ProductName, CategoryId = product.CategoryId, CategoryName = category.CategoryName, Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount, UserId = product.UserId };
+                            select new ProductDTO { Id = product.Id, ProductName = product.ProductName, CategoryId = product.CategoryId, CategoryName = category.CategoryName,
+                                Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount, UserId = product.UserId };
                 return query.FirstOrDefault();
             }
         }
