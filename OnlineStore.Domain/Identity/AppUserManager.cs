@@ -1,5 +1,4 @@
-﻿using OnlineStore.Domain.Helper;
-using OnlineStore.Domain.Infrastructure;
+﻿using OnlineStore.Domain.Infrastructure;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
@@ -100,7 +99,7 @@ namespace OnlineStore.Domain.Identity
                 RequireUniqueEmail = true
             };
 
-            manager.PasswordHasher = new Helper.PasswordHasher();
+            manager.PasswordHasher = new PasswordHasher();
 
             // Configure validation logic for passwords
             manager.PasswordValidator = new PasswordValidator

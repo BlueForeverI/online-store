@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity.EntityFramework;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using OnlineStore.Domain.Identity;
 using OnlineStore.Domain.Infrastructure;
 using System;
@@ -15,7 +16,7 @@ namespace OnlineStore.Services
         {
             using (OnlineStoreDBContext context = new OnlineStoreDBContext())
             {
-                Domain.Helper.PasswordHasher hasher = new Domain.Helper.PasswordHasher();
+                PasswordHasher hasher = new PasswordHasher();
                 var user = new AppUser
                 {
                     UserName = username,
