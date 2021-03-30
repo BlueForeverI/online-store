@@ -28,10 +28,11 @@ h5 {
     margin-top:20px;
 }
 
-.header_search{
+.header_search {
 	position: relative;
     margin-top:20px;
-    width:90%;
+	margin-bottom: 50px;
+	margin-left: 0.5em;
 }
 	.header_search form{
 		width:100%;

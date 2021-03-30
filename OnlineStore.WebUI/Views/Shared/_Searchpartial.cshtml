@@ -1,0 +1,65 @@
+﻿<div class="row">
+    <div class="header_search">
+        <div class="row">
+            <div class="col-sm-12">
+                <form action="/Product/Search/" method="Get">
+                    <div class="search-container">
+                        <fieldset class="form-group">
+                            <label for="ProductName">Product Name</label>
+                            <input class="form-control" type="text" id="ProductName" name="productName">
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <label for="Price">Price From</label>
+                            <input class="form-control" type="number" id="PriceFrom" name="priceFrom">
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <label for="Price">Price To</label>
+                            <input class="form-control" type="number" id="PriceTo" name="priceTo">
+                        </fieldset>
+
+                        <fieldset class="form-group">
+                            <label for="sortBy">Sort By</label>
+                            <select name="sortBy" class="form-control">
+                                <option value="name">Name</option>
+                                <option value="price">Price</option>
+                            </select>
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <label for="asc">Direction</label>
+                            <select name="asc" class="form-control">
+                                <option value="true">ASC</option>
+                                <option value="false">DESC</option>
+                            </select>
+                        </fieldset>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Search</button>
+                    <button type="submit" class="btn btn-danger" name="export" value="true">Export</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>$(document).ready(function() {
+    $(function () {
+        let setVal = (input, pathItem) => {
+            let val = decodeURI(pathItem.split('=')[1]);
+            $(`[name="${input}"]`).val(val);
+        }
+
+        let pathItems = window.location.search.split(/[\?&]/);
+        pathItems.forEach(item => {
+            if (item.startsWith('productName')) {
+                setVal('productName', item);
+            } else if (item.startsWith('priceFrom')) {
+                setVal('priceFrom', item);
+            } else if (item.startsWith('priceTo')) {
+                setVal('priceTo', item);
+            } else if (item.startsWith('sortBy')) {
+                setVal('sortBy', item);
+            } else if (item.startsWith('asc')) {
+                setVal('asc', item);
+            }
+        });
+    });
+});</script>

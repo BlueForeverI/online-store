@@ -318,6 +318,7 @@
     <Content Include="Views\Account\ChangePassword.cshtml" />
     <Content Include="Views\Product\MyProductOrders.cshtml" />
     <Content Include="Views\Account\RegistrationSuccessful.cshtml" />
+    <Content Include="Views\Shared\_Searchpartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

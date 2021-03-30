@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using OnlineStore.Services.DTO;
 using OnlineStore.Services;
 using System.Linq;
+using System.Text;
 
 namespace OnlineStore.WebUI.Controllers
 {    
@@ -15,11 +16,34 @@ namespace OnlineStore.WebUI.Controllers
         private CategoryService _categoryService = new CategoryService();
         private OrderService _orderService = new OrderService();
 
-        public ActionResult Index()
+        public ActionResult Index(string sortBy = null, bool asc = false)
         {
             List<ProductDTO> list = _productService.GetProductDTOs();
+            if (sortBy != null)
+            {
+                list = GetOrderedList(list, sortBy, asc);
+            }
             ViewBag.Title = "All Products";
             return View("List", list);
+        }
+
+        private List<ProductDTO> GetOrderedList(List<ProductDTO> original, string sortBy, bool asc)
+        {
+            Func<ProductDTO, object> sortProperty = x => x.ProductName;
+            switch(sortBy)
+            {
+                case "name":
+                    sortProperty = x => x.ProductName;
+                    break;
+                case "price":
+                    sortProperty = x => x.Price;
+                    break;
+            }
+
+            var sorted = asc
+                ? original.OrderBy(sortProperty)
+                : original.OrderByDescending(sortProperty);
+            return sorted.ToList();
         }
 
         public ActionResult Category(int id)
@@ -45,7 +69,8 @@ namespace OnlineStore.WebUI.Controllers
             return list;
         }
 
-        public ActionResult Search(string productName, double? priceFrom, double? priceTo)
+        public ActionResult Search(string productName, double? priceFrom, double? priceTo,
+            string sortBy = null, bool asc = false, bool export = false)
         {
             var list = new List<ProductDTO>();
             if (string.IsNullOrEmpty(productName))
@@ -56,6 +81,24 @@ namespace OnlineStore.WebUI.Controllers
             {
                 list = _productService.GetProductDTOsByNameAndPrice(productName, priceFrom, priceTo);
             }
+
+            if (sortBy != null)
+            {
+                list = GetOrderedList(list, sortBy, asc);
+            }
+
+            if (export)
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.AppendLine("ID,Name,Category,Price,Image,Condition,Discount,DicountPrice");
+                foreach(var item in list)
+                {
+                    sb.AppendLine($"{item.Id},{item.ProductName},{item.CategoryName},{item.Price},{item.Image},{item.Condition},{item.Discount},{item.GetDiscountedPrice()}");
+                }
+
+                return File(Encoding.UTF8.GetBytes(sb.ToString()), "text/csv", $"products_{DateTime.Now.ToShortDateString()}_{DateTime.Now.ToLongTimeString()}.csv");
+            }
+
             ViewBag.Title = "Search Result";
             return View("List", list);
         }
