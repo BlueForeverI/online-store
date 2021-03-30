@@ -13,7 +13,7 @@
         <form class="form-inline" role="form">
             <div class="form-group">
                 <label for="categoryFilter">Category:</label>
-                @Html.DropDownListFor(o => o.CategoryId, new SelectList(ViewBag.CategoryFilter, "CategoryId", "CategoryName"), new { @id = "categoryFilter", @name = "categoryFilter", @class = "form-control" })
+                @Html.DropDownListFor(o => o.CategoryId, new SelectList(ViewBag.CategoryFilter, "Id", "CategoryName"), new { @id = "categoryFilter", @name = "categoryFilter", @class = "form-control" })
             </div>
         </form>
     </div>
@@ -52,7 +52,7 @@
                 </fieldset>
                 <fieldset class="form-group">
                     @Html.LabelFor(p => p.CategoryId)
-                    @Html.DropDownListFor(o => o.CategoryId, new SelectList(ViewBag.Categories, "CategoryId", "CategoryName"), new { @class = "form-control" })
+                    @Html.DropDownListFor(o => o.CategoryId, new SelectList(ViewBag.Categories, "Id", "CategoryName"), new { @class = "form-control" })
                 </fieldset>
                 <fieldset class="form-group">
                     @Html.LabelFor(p => p.Price)
@@ -99,7 +99,7 @@
                 </fieldset>
                 <fieldset class="form-group">
                     @Html.LabelFor(p => p.CategoryId)
-                    @Html.DropDownListFor(o => o.CategoryId, new SelectList(ViewBag.Categories, "CategoryId", "CategoryName"), new { @class = "form-control" })
+                    @Html.DropDownListFor(o => o.CategoryId, new SelectList(ViewBag.Categories, "Id", "CategoryName"), new { @class = "form-control" })
                 </fieldset>
                 <fieldset class="form-group">
                     @Html.LabelFor(p => p.Price)
