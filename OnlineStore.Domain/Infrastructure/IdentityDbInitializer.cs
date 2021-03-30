@@ -1,5 +1,4 @@
-﻿using OnlineStore.Domain.Helper;
-using OnlineStore.Domain.Identity;
+﻿using OnlineStore.Domain.Identity;
 using OnlineStore.Domain.Model;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -26,7 +25,7 @@ namespace OnlineStore.Domain.Infrastructure
             GetCategories().ForEach(c => context.Categories.Add(c));
             GetProducts().ForEach(c => context.Products.Add(c));
             context.SaveChanges();
-            Helper.PasswordHasher hasher = new Helper.PasswordHasher();
+            PasswordHasher hasher = new PasswordHasher();
             var user = new AppUser { UserName = "admin", Email = "admin@gamestore.com", PasswordHash = hasher.HashPassword("admin"), Membership = "Admin" };
             var role = context.Roles.Where(r => r.Name == "Admin").First();
             user.Roles.Add(new IdentityUserRole { RoleId = role.Id, UserId = user.Id });
