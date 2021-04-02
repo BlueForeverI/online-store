@@ -14,7 +14,7 @@ namespace OnlineStore.Domain.Model
         {
 
         }
-        [Display(Name = "Category Name")]
+        [Display(Name = "Категория")]
         [Required]
         public string CategoryName { get; set; }
     }

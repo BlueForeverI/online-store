@@ -1,18 +1,18 @@
 ﻿@model OnlineStore.Services.DTO.ProductDTO
 @{
-    ViewBag.Title = "Product Management";
+    ViewBag.Title = "Управление на продукти";
 }
 
 <h2>@ViewBag.Title</h2>
 
 <div class="row">
     <div style="float:left; padding-left:15px">
-        <button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#AddModal">Add Product</button>
+        <button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#AddModal">Добави</button>
     </div>
     <div style="float:right; padding-right:15px">
         <form class="form-inline" role="form">
             <div class="form-group">
-                <label for="categoryFilter">Category:</label>
+                <label for="categoryFilter">Категория:</label>
                 @Html.DropDownListFor(o => o.CategoryId, new SelectList(ViewBag.CategoryFilter, "Id", "CategoryName"), new { @id = "categoryFilter", @name = "categoryFilter", @class = "form-control" })
             </div>
         </form>
@@ -22,14 +22,14 @@
 <table class="table table-striped" id="modelList">
     <thead>
         <tr>
-            <th>Product Id</th>
-            <th>Product Name</th>
-            <th>Category</th>
-            <th>Price</th>
-            <th>Image</th>
-            <th>Condition</th>
-            <th>Discount</th>
-            <th>Operations</th>
+            <th>ID</th>
+            <th>Име</th>
+            <th>Категория</th>
+            <th>Цена</th>
+            <th>Снимка</th>
+            <th>Състояние</th>
+            <th>Отстъпка</th>
+            <th>Операции</th>
         </tr>
     </thead>
     <tbody></tbody>
@@ -42,7 +42,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Add New Product</h4>
+                <h4 class="modal-title">Добави</h4>
             </div>
             <div class="modal-body">                
                 @Html.ValidationSummary(false, "", new { @class = "text-danger" })
@@ -72,8 +72,8 @@
                 </fieldset>                                
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary pull-left">Submit</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary pull-left">Запази</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Затвори</button>
             </div>
         </div>
     }
@@ -87,7 +87,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Edit Category</h4>
+                <h4 class="modal-title">Редактирай категория</h4>
             </div>
             <div class="modal-body">               
                 @Html.ValidationSummary(false, "", new { @class = "text-danger" })
@@ -119,8 +119,8 @@
                 </fieldset>                
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary pull-left">Update</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary pull-left">Редактирай</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Затвори</button>
             </div>
         </div>
     }
@@ -131,10 +131,8 @@
 {
     <script>
         $().ready(function () {
-            //Load Categories when the page is loaded
             loadList(0);
 
-            //Enable filter
             $("#categoryFilter").on('change', function (e) {
                 loadList(this.value);
             });
@@ -168,33 +166,35 @@
             var url = '/api/Product/?CategoryId=' + categoryid + '&CategoryName=AAA';
             $.getJSON(url, function (data) {
                 $.each(data, function (i, product) {
-                    $('#modelList tbody').append("<tr><td>" + product.Id + "</td><td>" + product.ProductName + "</td><td>" + product.CategoryName + "</td><td>" + product.Price + "</td><td>" + product.Image + "</td><td>" + product.Condition + "</td><td>" + product.Discount + "</td><td><span><a class='btn btn-success' href='javascript:editModel(\"" + product.Id + "\");'> Edit</a></span><span style='padding-left: 5px'><a class='btn btn-danger' href='javascript:deleteModel(\"" + product.Id + "\");'> Delete</a></span></td></tr>");
+                    $('#modelList tbody').append("<tr><td>" + product.Id + "</td><td>" +
+                        product.ProductName + "</td><td>" + product.CategoryName +
+                        "</td><td>" + product.Price + "</td><td>" + product.Image +
+                        "</td><td>" + product.Condition + "</td><td>" + product.Discount +
+                        "</td><td><span><a class='btn btn-success' href='javascript:editModel(\"" +
+                        product.Id + "\");'> Редактирай</a></span><span style='padding-left: 5px'><a class='btn btn-danger' href='javascript:deleteModel(\"" +
+                        product.Id + "\");'> Изтрий</a></span></td></tr>");
                 });
             });
         }
 
-        var formatter = new Intl.NumberFormat('en-US', {
+        var formatter = new Intl.NumberFormat('bg-BG', {
             style: 'currency',
-            currency: 'USD',
+            currency: 'BGN',
             minimumFractionDigits: 2,
         });
 
         //Make an ajax call to delete a model object
         function deleteModel(id) {
-            var result = confirm("Are you sure to delete?");
+            var result = confirm("Сигурни ли сте, че искате да изтриете този продукт?");
             if (result) {
                 $.ajax({
                     url: '/api/Product/' + id,
                     type: 'DELETE',
                     success: function (result) {
-                        if (result == "Okay") {
-                            loadList();
-                        } else {
-                            alert(result);
-                        }
+                        loadList();
                     },
                     error: function (result) {
-                        alert("Unable to delete product. Error:" + result);
+                        alert("Грешка при изтриването на продукт");
                     }
                 });
             }
@@ -216,19 +216,14 @@
                     $('#EditModal').modal('show');
                 },
                 error: function (result) {
-                    alert("Unable to edit category.")
+                    alert("Грешка при изтриването на продукт.")
                 }
             });
         }
 
         function onSuccess(data) {
-            if (data == "Okay") {
-                $('#AddModal').modal('hide');
-                $('#EditModal').modal('hide');
-            } else {
-                clearMessage();
-                $('.text-danger ul').append("<li>" + data + "</li>")
-            }
+            $('#AddModal').modal('hide');
+            $('#EditModal').modal('hide');
         }
 
         function clearMessage() {
@@ -238,7 +233,7 @@
         }
 
         function onFailure(data) {
-            alert('An error occurred, please try again.');
+            alert('Грешка, моля опитайте отново.');
         }
     </script>
 }

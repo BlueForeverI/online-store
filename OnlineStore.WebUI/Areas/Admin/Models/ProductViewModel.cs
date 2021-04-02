@@ -9,10 +9,10 @@ namespace OnlineStore.WebUI.Areas.Admin.Models
     public class ProductViewModel
     {
         public int Id { get; set; }
-        [Display(Name = "Product Name")]
+        [Display(Name = "Име")]
         [Required]
         public string ProductName { get; set; }
-        [Display(Name = "Category")]
+        [Display(Name = "Категория")]
         public int CategoryId { get; set; }
         [Required]
         public double Price { get; set; }

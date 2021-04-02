@@ -14,10 +14,10 @@ namespace OnlineStore.Domain.Model
         {
             this.Reviews = new HashSet<Review>();
         }
-        [Display(Name = "Product Name")]
+        [Display(Name = "Име")]
         [Required]
         public string ProductName { get; set; }
-        [Display(Name = "Category")]
+        [Display(Name = "Категория")]
         public int CategoryId { get; set; }
         [Required]
         public double Price { get; set; }

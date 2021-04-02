@@ -112,14 +112,14 @@ namespace OnlineStore.WebUI.Apis
                 if (value.Discount < 0 || value.Discount > 100)
                 {
                     return Request.CreateResponse(HttpStatusCode.BadRequest,
-                        "Discount must between 0 ~ 100.");
+                        "Отстъпката трябва да е между 0 и 100.");
                 }
 
                 bool exist = _service.Exists(c => c.ProductName.Equals(value.ProductName, StringComparison.OrdinalIgnoreCase));
                 if (exist)
                 {
                     return Request.CreateResponse(HttpStatusCode.BadRequest,
-                        "Product [" + value.ProductName + "] already exists, please try another name!");
+                        "Продукт с име [" + value.ProductName + "] вече съществува, изберете друго име!");
                 }
 
                 Product newProduct = new Product();
@@ -149,20 +149,20 @@ namespace OnlineStore.WebUI.Apis
             {
                 if (value == null || String.IsNullOrEmpty(value.ProductName))
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, "Product Name can't be empty!");
+                    return Request.CreateResponse(HttpStatusCode.OK, "Името на продукта не може да е празно!");
                 }
 
                 if (value.Discount < 0 || value.Discount > 100)
                 {
                     return Request.CreateResponse(HttpStatusCode.BadRequest,
-                        "Discount must be between 0 ~ 100.");
+                        "Отстъпката трябва да е между 0 и 100.");
                 }
 
                 bool exists = _service.Exists(c => c.Id == value.Id);
                 if (!exists)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound,
-                        "Product [" + value.Id + "] does not exist!");
+                        "Продукт [" + value.Id + "] не съществува!");
                 }
 
                 exists = _service.Exists(c => c.Id != value.Id &&
@@ -171,19 +171,19 @@ namespace OnlineStore.WebUI.Apis
                 if (exists)
                 {
                     return Request.CreateResponse(HttpStatusCode.BadRequest,
-                        "Product [" + value.ProductName + "] already exists, please try another name!");
+                        "Продукт с име [" + value.ProductName + "] вече съществува, изберете друго име!");
                 }
                 var product = _service.Get(value.Id);
                 if (product == null)
                 {
-                    return Request.CreateResponse(HttpStatusCode.NotFound, "No such product!");
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Няма такъв продукт!");
                 }
 
                 bool isAdvanced = HttpContext.Current.User.IsInRole("Advanced");
                 if (isAdvanced && product.UserId != HttpContext.Current.User.Identity.GetUserId())
                 {
                     return Request.CreateResponse(HttpStatusCode.Forbidden,
-                        "You have no authorization to update this product!");
+                        "Нямате права да редактирате този продукт!");
                 }
 
                 HttpContext.Current.Cache.Remove("ProductList" + product.CategoryId);
@@ -212,13 +212,13 @@ namespace OnlineStore.WebUI.Apis
             var product = _service.Get(id);
             if (product == null)
             {
-                return Request.CreateResponse(HttpStatusCode.NotFound, "No such product!");
+                return Request.CreateResponse(HttpStatusCode.NotFound, "Няма такъв продукт!");
             }
             bool isAdvanced = HttpContext.Current.User.IsInRole("Advanced");
             if (isAdvanced && product.UserId != HttpContext.Current.User.Identity.GetUserId())
             {
                 return Request.CreateResponse(HttpStatusCode.Forbidden,
-                    "You have no authorization to delete this product!");
+                    "Нямате права да изтриете този продукт!");
             }
             _service.Delete(id);
 

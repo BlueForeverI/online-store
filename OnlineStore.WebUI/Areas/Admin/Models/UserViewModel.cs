@@ -17,11 +17,11 @@ namespace OnlineStore.WebUI.Areas.Admin.Models
         public string Email { get; set; }
 
         [Required]
-        [Display(Name = "User Name")]
+        [Display(Name = "Потребителско име")]
         public string UserName { get; set; }
 
         [Required]
-        [Display(Name = "Membership")]
+        [Display(Name = "Роля")]
         public string Membership { get; set; }
     }
 }

@@ -82,7 +82,7 @@ namespace OnlineStore.WebUI.Apis
                 if (existRole != null)
                 {
                     return Request.CreateResponse(HttpStatusCode.BadRequest,
-                        "Role [" + value.Name + "] already exists, please try another name!");
+                        "Роля [" + value.Name + "] вече съществува, изберете друго име!");
                 }
 
                 AppRole role = new AppRole();
@@ -101,7 +101,7 @@ namespace OnlineStore.WebUI.Apis
             }
             else
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid input");
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Грешни данни");
             }
         }
         public HttpResponseMessage Post([FromBody]RoleViewModel value)
@@ -112,7 +112,7 @@ namespace OnlineStore.WebUI.Apis
                 if (role == null)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound,
-                        "Role [" + value.Id + "] does not exist!");
+                        "Роля [" + value.Id + "] не съществува!");
                 }
                 role.Name = value.Name;
                 role.Description = value.Description;
@@ -131,7 +131,7 @@ namespace OnlineStore.WebUI.Apis
             }
             else
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid input");
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Грешни данни");
             }            
         }
         
@@ -142,12 +142,12 @@ namespace OnlineStore.WebUI.Apis
             if (role == null)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound,
-                    "Role ["+id+"] not found.");
+                    "Роля ["+id+"] не е намерена.");
             }
             else if (role.Users.Count > 0)
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest,
-                    "Users are assigned to role [" + role.Name + "], remove them first!");
+                    "Има потребители за роля [" + role.Name + "], изтрийте тях първо!");
             }
             else
             {

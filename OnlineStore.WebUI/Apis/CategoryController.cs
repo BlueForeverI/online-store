@@ -69,7 +69,7 @@ namespace OnlineStore.WebUI.Apis
         {
             if (value==null || String.IsNullOrEmpty(value.CategoryName))
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, "Category Name can't be empty!");
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Категорията не може да бъде празна!");
             }            
 
             bool exist = _service.Exists(c => c.CategoryName.Equals(value.CategoryName, StringComparison.OrdinalIgnoreCase));
@@ -90,13 +90,13 @@ namespace OnlineStore.WebUI.Apis
         {
             if (value == null || String.IsNullOrEmpty(value.CategoryName))
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, "Category Name can't be empty!");
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Категорията не може да бъде празна!");
             }
 
             bool exist = _service.Exists(c => c.Id == value.CategoryId);
             if (!exist)
             {
-                return Request.CreateResponse(HttpStatusCode.NotFound, "Category ["+value.CategoryId+"] does not exist!");
+                return Request.CreateResponse(HttpStatusCode.NotFound, "Категория ["+value.CategoryId+"] не съществува!");
             }
                 
             exist = _service.GetAll()
@@ -105,7 +105,7 @@ namespace OnlineStore.WebUI.Apis
             if (exist)
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest,
-                    "Category [" + value.CategoryName + "] already exists, please try another name!");
+                    "Категория [" + value.CategoryName + "] вече съществува, пробвайте друго име!");
             }
 
             var category = _service.Get(value.CategoryId);
@@ -125,7 +125,7 @@ namespace OnlineStore.WebUI.Apis
             if (exist)
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest,
-                    "Theis product belongs to Category [" + id + "], delete them first!");
+                    "Има продукти към категория [" + id + "], изтрийте първо тях!");
             }
 
             _service.Delete(id);

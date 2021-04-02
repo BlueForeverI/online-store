@@ -1,6 +1,6 @@
 ﻿@model OnlineStore.WebUI.Areas.Admin.Models.UserViewModel
 @{
-    ViewBag.Title = "User Management";
+    ViewBag.Title = "Управление на потребители";
 }
 
 <h2>@ViewBag.Title</h2>
@@ -10,11 +10,11 @@
 <table class="table table-striped" id="userList">
     <thead>
         <tr>
-            <th>User Id</th>
+            <th>ID</th>
             <th>Email</th>
-            <th>User Name</th>
-            <th>Membership</th>
-            <th>Operations</th>
+            <th>Потребителско име</th>
+            <th>Роля</th>
+            <th>Операции</th>
         </tr>
     </thead>
     <tbody></tbody>
@@ -27,7 +27,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Add New User</h4>
+                <h4 class="modal-title">Добави</h4>
             </div>
         <div class="modal-body">                
                 @Html.ValidationSummary(false, "", new { @class = "text-danger" })
@@ -36,17 +36,17 @@
                     @Html.TextBoxFor(u => u.Email, new { @class = "form-control" })
                 </fieldset>
                 <fieldset class="form-group">
-                    <label for="UserName">UserName</label>
+                    <label for="UserName">Потребителско име</label>
                     @Html.TextBoxFor(u => u.UserName, new { @class = "form-control" })
                 </fieldset>
                 <fieldset class="form-group">
-                    <label for="Role">Role</label>
+                    <label for="Role">Роля</label>
                     @Html.DropDownListFor(u => u.Membership, new SelectList(ViewBag.Roles, "Name", "Name"), new { @class = "form-control" })
                 </fieldset>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary pull-left">Submit</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary pull-left">Запази</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Затвори</button>
             </div>
         </div>
     }
@@ -60,7 +60,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Edit User</h4>
+                <h4 class="modal-title">Редактирай потребител</h4>
             </div>
             <div class="modal-body">                
                 @Html.ValidationSummary(false, "", new { @class = "text-danger" })
@@ -71,17 +71,17 @@
                     @Html.TextBoxFor(u => u.Email, new { @class = "form-control", disabled = "true" })
                 </fieldset>
                 <fieldset class="form-group">
-                    <label for="UserName">UserName</label>
+                    <label for="UserName">Потребителско име</label>
                     @Html.TextBoxFor(u => u.UserName, new { @class = "form-control"})
                 </fieldset>
                 <fieldset class="form-group">
-                    <label for="Role">Role</label>
+                    <label for="Role">Роля</label>
                     @Html.DropDownListFor(u => u.Membership, new SelectList(ViewBag.Roles, "Name", "Name"), new { @class = "form-control" })
                 </fieldset>                
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary pull-left">Update</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary pull-left">Редактирай</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Затвори</button>
             </div>
         </div>
     }
@@ -121,14 +121,14 @@
             $("#userList").find('tbody').empty();
             $.getJSON("/api/User/", function (data) {
                 $.each(data, function (i, user) {
-                    $('#userList tbody').append("<tr><td>" + user.Id + "</td><td>" + user.Email + "</td><td>" + user.UserName + "</td><td>" + user.Membership + "</td><td><span><a class='btn btn-success' href='javascript:editModel(\"" + user.Id + "\");'> Edit</a></span><span style='padding-left: 5px'><a class='btn btn-danger' href='javascript:deleteModel(\"" + user.Id + "\");'> Delete</a></span></td></tr>");
+                    $('#userList tbody').append("<tr><td>" + user.Id + "</td><td>" + user.Email + "</td><td>" + user.UserName + "</td><td>" + user.Membership + "</td><td><span><a class='btn btn-success' href='javascript:editModel(\"" + user.Id + "\");'> Редактирай</a></span><span style='padding-left: 5px'><a class='btn btn-danger' href='javascript:deleteModel(\"" + user.Id + "\");'> Изтрий</a></span></td></tr>");
                 });
             });
         }
 
         //Make an ajax call to delete a user
         function deleteModel(id) {
-            var result = confirm("Are you sure to delete?");
+            var result = confirm("Сигурни ли сте, че искате да изтриете потребителя??");
             if (result) {
                 $.ajax({
                     url: '/api/User/' + id,
@@ -137,7 +137,7 @@
                         loadList();
                     },
                     error: function (result) {
-                        alert("Unable to delete user. Error:" + result);
+                        alert("Грешка при изтриване на потребител");
                     }
                 });
             }
@@ -155,19 +155,14 @@
                     $('#EditModal').modal('show');
                 },
                 error: function (result) {
-                    alert("Unable to edit user.")
+                    alert("Грешка при изтриване на потребителя.")
                 }
             });
         }
 
         function onSuccess(data) {
-            if (data == "Okay") {
-                $('#AddModal').modal('hide');
-                $('#EditModal').modal('hide');
-            } else {
-                clearMessage();
-                $('.text-danger ul').append("<li>" + data + "</li>")
-            }
+            $('#AddModal').modal('hide');
+            $('#EditModal').modal('hide');
         }
 
         function clearMessage() {
@@ -177,8 +172,9 @@
         }
 
         function onFailure(data) {
-            alert('An error occurred, please try again.');
-            //alert('Error:' + data.responseText);
+            alert('Грешка при изтриване, опитайте отново.');
+            clearMessage();
+            $('.text-danger ul').append("<li>" + data + "</li>")
         }
     </script>
 }

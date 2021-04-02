@@ -20,7 +20,7 @@ namespace OnlineStore.WebUI.Areas.Admin.Controllers
             List<Category> list = _service.GetAll();
             ViewBag.Categories = list;
             List<Category> alllist = new List<Category>(list);
-            alllist.Insert(0, new Category { Id = 0, CategoryName = "Select All" });
+            alllist.Insert(0, new Category { Id = 0, CategoryName = "Всички" });
             ViewBag.CategoryFilter = alllist;
             return View();
         }

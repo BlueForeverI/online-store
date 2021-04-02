@@ -39,7 +39,7 @@ namespace OnlineStore.WebUI.Apis
             var order = _service.Get(id);
             if (order == null)
             {
-                return Request.CreateResponse(HttpStatusCode.NotFound, "No such order [" + id + "].");
+                return Request.CreateResponse(HttpStatusCode.NotFound, "Не съществува поръчка с ID [" + id + "].");
             }
             _service.Delete(id);
             return Request.CreateResponse(HttpStatusCode.OK);

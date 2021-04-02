@@ -98,7 +98,7 @@ namespace OnlineStore.WebUI.Apis
             }
             else
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid input");
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Грешни данни");
             }
         }
         public HttpResponseMessage Post([FromBody]UserViewModel value)
@@ -109,7 +109,7 @@ namespace OnlineStore.WebUI.Apis
                 if (user == null)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound,
-                        "User [" + value.Id + "] does not exist!");
+                        "Потребител [" + value.Id + "] не съществува!");
                 }
                 user.UserName = value.UserName;
                 user.Membership = value.Membership;
@@ -131,7 +131,7 @@ namespace OnlineStore.WebUI.Apis
             }
             else
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid input");
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Грешни данни");
             }            
         }
         
@@ -141,7 +141,8 @@ namespace OnlineStore.WebUI.Apis
             AppUser user = UserManager.FindById(id);
             if (user == null)
             {
-                return Request.CreateResponse(HttpStatusCode.NotFound, "User ["+id+"] not found.");
+                return Request.CreateResponse(HttpStatusCode.NotFound,
+                    "Потребителят ["+id+"] не е намерен.");
             }            
             else
             {
