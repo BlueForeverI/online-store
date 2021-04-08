@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Online Store</title>
+    <title>@ViewBag.Title - Онлайн Магазин</title>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryval")
@@ -31,14 +31,14 @@
                     <span class="icon-bar"></span>
                 </button>
                 <ul class="nav navbar-nav">
-                    <li class="@Html.IsSelected(actions: "Index", controllers: "Home")">@Html.ActionLink("Online Store", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })</li>
+                    <li class="@Html.IsSelected(actions: "Index", controllers: "Home")">@Html.ActionLink("Онлайн Магазин", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })</li>
                 </ul>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li class="@Html.IsSelected(actions: "Console", controllers: "Product")">@Html.ActionLink("Console", "Console", "Product", new { area = "" }, null)</li>
-                    <li class="@Html.IsSelected(actions: "Accessory", controllers: "Product")">@Html.ActionLink("Accessory", "Accessory", "Product", new { area = "" }, null)</li>
-                    <li class="@Html.IsSelected(actions: "Game", controllers: "Product")">@Html.ActionLink("Game", "Game", "Product", new { area = "" }, null)</li>                    
+                    <li class="@Html.IsSelected(actions: "Console", controllers: "Product")">@Html.ActionLink("Конзоли", "Console", "Product", new { area = "" }, null)</li>
+                    <li class="@Html.IsSelected(actions: "Accessory", controllers: "Product")">@Html.ActionLink("Аксесоари", "Accessory", "Product", new { area = "" }, null)</li>
+                    <li class="@Html.IsSelected(actions: "Game", controllers: "Product")">@Html.ActionLink("Игри", "Game", "Product", new { area = "" }, null)</li>                    
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -47,12 +47,12 @@
     <div class="container">
         <div class="container-fluid">
             <div class="col-sm-3 sidenav hidden-xs">
-                <h2>Logo</h2>
+                <h2>Лого</h2>
                 <ul class="nav nav-pills nav-stacked">
-                    <li class="active"><a href="#section1">Dashboard</a></li>
-                    <li><a href="#section2">Age</a></li>
-                    <li><a href="#section3">Gender</a></li>
-                    <li><a href="#section3">Geo</a></li>
+                    <li class="active"><a href="#section1">Табло</a></li>
+                    <li><a href="#section2">Възраст</a></li>
+                    <li><a href="#section3">Пол</a></li>
+                    <li><a href="#section3">Адрес</a></li>
                 </ul><br>
             </div>
             <div class="col-sm-9">

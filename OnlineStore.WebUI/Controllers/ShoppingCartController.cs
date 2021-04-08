@@ -61,10 +61,10 @@ namespace OnlineStore.WebUI.Controllers
         public ActionResult Checkout()
         {
             CheckoutViewModel checkout = new CheckoutViewModel();
-            checkout.FullName = "Peter Petrov";
-            checkout.Address = "Serdika str.";
-            checkout.City = "Sofia";
-            checkout.State = "Sofia";
+            checkout.FullName = "Петър Петров";
+            checkout.Address = "ж-к Люлин";
+            checkout.City = "София";
+            checkout.State = "София";
             checkout.Zip = "1000";
             ViewBag.States = State.List();
             return View(checkout);
@@ -75,13 +75,13 @@ namespace OnlineStore.WebUI.Controllers
             ShoppingCart cart = (ShoppingCart)Session["ShoppingCart"];
             if (cart == null)
             {
-                ViewBag.Message = "Your cart is empty!";
+                ViewBag.Message = "Количката ви е празна!";
                 return View("Index", "ShoppingCart");
             }
 
             if (!ModelState.IsValid)
             {
-                ViewBag.Message = "Please provide valid shipping address!";
+                ViewBag.Message = "Моля въведете валиден адрес за доставка!";
                 return View("Checkout", "ShoppingCart");
             }
 
@@ -99,14 +99,14 @@ namespace OnlineStore.WebUI.Controllers
             {
                 switch (StatusCode)
                 {
-                    case ("A"): ViewBag.TransactionStatus = "Transaction Approved! Your order has been created!"; break;
-                    case ("D"): ViewBag.TransactionStatus = "Transaction Denied!"; break;
-                    case ("C"): ViewBag.TransactionStatus = "Transaction Cancelled!"; break;
+                    case ("A"): ViewBag.TransactionStatus = "Поръчката ви е създадена успешно!"; break;
+                    case ("D"): ViewBag.TransactionStatus = "Транзакцията е отказана!"; break;
+                    case ("C"): ViewBag.TransactionStatus = "Транзакцията е прекратена!"; break;
                 }
             }
             else
             {
-                ViewBag.TransactionStatus = "Hash Verification failed... something went wrong.";
+                ViewBag.TransactionStatus = "Грешка при потвърждение на плащането.";
             }
 
             OrderViewModel model = new OrderViewModel();

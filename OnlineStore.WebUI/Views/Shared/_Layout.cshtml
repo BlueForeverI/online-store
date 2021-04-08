@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Online Store</title>
+    <title>@ViewBag.Title - Онлайн Магазин</title>
     <link rel="icon" type="image/x-icon" href="~/images/favorite.ico">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
     @Scripts.Render("~/bundles/jquery")
@@ -32,20 +32,20 @@
                     <span class="icon-bar"></span>
                 </button>
                 <ul class="nav navbar-nav">
-                    <li class="@Html.IsSelected(actions: "Index", controllers: "Home")">@Html.ActionLink("Online Store", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })</li>
+                    <li class="@Html.IsSelected(actions: "Index", controllers: "Home")">@Html.ActionLink("Онлайн Магазин", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })</li>
                 </ul>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li class="@Html.IsSelected(actions: "Index", controllers: "Product")">@Html.ActionLink("All Products", "Index", "Product", new { area = "" }, null)</li>
+                    <li class="@Html.IsSelected(actions: "Index", controllers: "Product")">@Html.ActionLink("Всички продукти", "Index", "Product", new { area = "" }, null)</li>
                     <li class="@Html.IsSelected(actions: "Category", controllers: "Product")">
                         <ul class="nav navbar-nav navbar-right">
                             <li class="dropdown">
                                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Categories<span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li>@Html.ActionLink("Consoles", "Category", "Product", new { area = "", id = 1 }, null)</li>
-                                    <li>@Html.ActionLink("Games", "Category", "Product", new { area = "", id = 3 }, null)</li>
-                                    <li>@Html.ActionLink("Accessories", "Category", "Product", new { area = "", id = 2 }, null)</li>
+                                    <li>@Html.ActionLink("Конзоли", "Category", "Product", new { area = "", id = 1 }, null)</li>
+                                    <li>@Html.ActionLink("Игри", "Category", "Product", new { area = "", id = 3 }, null)</li>
+                                    <li>@Html.ActionLink("Аксесоари", "Category", "Product", new { area = "", id = 2 }, null)</li>
                                 </ul>
                             </li>
                         </ul>
@@ -59,7 +59,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - Online Store</p>
+            <p>&copy; @DateTime.Now.Year - Онлайн Магазин</p>
         </footer>
     </div>
 

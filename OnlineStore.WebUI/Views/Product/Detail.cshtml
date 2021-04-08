@@ -1,7 +1,7 @@
 ﻿@using OnlineStore.Extension;
 @model OnlineStore.Services.DTO.ProductDTO
 @{
-    ViewBag.Title = "Product Detail";
+    ViewBag.Title = "Детайли за продукта";
 }
 @Html.Partial("_FrontPartial")
 @Html.HiddenFor(o=>o.Id)
@@ -12,16 +12,16 @@
         <div>
             <h2>@Model.ProductName <small><span class="label label-danger">@Model.CategoryName</span></small></h2>
             <div class="special_item_price">
-                Price:
+                Цена:
                 <span class="price-old">@Html.FormattedCurrency(Model.Price)</span><span class="price-new">@Html.FormattedCurrency(Model.GetDiscountedPrice())</span>
             </div>
-            <div>Condition: @Model.Condition</div>
+            <div>Състояние: @Model.Condition</div>
             <div>
                 @using (Html.BeginForm("CreateOrUpdate", "ShoppingCart", FormMethod.Post))
                 {
                     <input type='hidden' name='id' value='@Model.Id'>
                     <input type='hidden' name='quantity' value='0'>
-                    <input type='submit' class='btn btn-warning' value='Add to Cart'>
+                    <input type='submit' class='btn btn-warning' value='Добави в количката'>
                 }
             </div>
         </div>

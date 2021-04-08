@@ -23,7 +23,7 @@ namespace OnlineStore.WebUI.Controllers
             {
                 list = GetOrderedList(list, sortBy, asc);
             }
-            ViewBag.Title = "All Products";
+            ViewBag.Title = "Всички продукти";
             return View("List", list);
         }
 
@@ -90,7 +90,7 @@ namespace OnlineStore.WebUI.Controllers
             if (export)
             {
                 StringBuilder sb = new StringBuilder();
-                sb.AppendLine("ID,Name,Category,Price,Image,Condition,Discount,DicountPrice");
+                sb.AppendLine("ID,Име,Категория,Цена,Снимка,Състояние,Отстъпка,Цена с отстъпката");
                 foreach(var item in list)
                 {
                     sb.AppendLine($"{item.Id},{item.ProductName},{item.CategoryName},{item.Price},{item.Image},{item.Condition},{item.Discount},{item.GetDiscountedPrice()}");
@@ -99,7 +99,7 @@ namespace OnlineStore.WebUI.Controllers
                 return File(Encoding.UTF8.GetBytes(sb.ToString()), "text/csv", $"products_{DateTime.Now.ToShortDateString()}_{DateTime.Now.ToLongTimeString()}.csv");
             }
 
-            ViewBag.Title = "Search Result";
+            ViewBag.Title = "Резултати от търсенето";
             return View("List", list);
         }
 
@@ -136,7 +136,7 @@ namespace OnlineStore.WebUI.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Message = "Error Occurs:" + ex.Message;
+                ViewBag.Message = "Грешка: " + ex.Message;
             }
 
             return View(list);

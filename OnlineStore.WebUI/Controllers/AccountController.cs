@@ -35,13 +35,13 @@ namespace OnlineStore.WebUI.Controllers
                 AppUser user = UserManager.FindByEmail(model.Email);
                 if (user != null)
                 {
-                    ModelState.AddModelError("", "User with this email address has already existed! Please try another email address!");
+                    ModelState.AddModelError("", "Потребител с този email адрес вече съществува! Пробвайте с друг email.");
                     return View(model);
                 }
                 user = UserManager.FindByName(model.UserName);
                 if (user != null)
                 {
-                    ModelState.AddModelError("", "The User Name you specified is already existing! Please try with another user name!");
+                    ModelState.AddModelError("", "Потребител с такова име вече съществува! ПРобвайте с друго име.");
                     return View(model);
                 }
 
@@ -56,8 +56,7 @@ namespace OnlineStore.WebUI.Controllers
         }
 
         [AllowAnonymous]
-        //[ValidateAntiForgeryToken]
-        public async Task<ActionResult> ProcessCreditResponse(String TransId, String TransAmount, String StatusCode, String AppHash)
+        public async Task<ActionResult> ProcessCreditResponse(string TransId, string TransAmount, string StatusCode, string AppHash)
         {
             string AppId = ConfigurationHelper.GetAppId();
             string SharedKey = ConfigurationHelper.GetSharedKey();
@@ -66,14 +65,14 @@ namespace OnlineStore.WebUI.Controllers
             {
                 switch (StatusCode)
                 {
-                    case ("A"): ViewBag.TransactionStatus = "Transaction Approved!"; break;
-                    case ("D"): ViewBag.TransactionStatus = "Transaction Denied!"; break;
-                    case ("C"): ViewBag.TransactionStatus = "Transaction Cancelled!"; break;
+                    case ("A"): ViewBag.TransactionStatus = "Транзакцията е одобрена!"; break;
+                    case ("D"): ViewBag.TransactionStatus = "Транзакцията е отказана!"; break;
+                    case ("C"): ViewBag.TransactionStatus = "Транзакцията е прекратена!"; break;
                 }
             }
             else
             {
-                ViewBag.TransactionStatus = "Hash Verification failed... something went wrong.";
+                ViewBag.TransactionStatus = "Грешка при потвърждението.";
             }
 
 
@@ -102,7 +101,6 @@ namespace OnlineStore.WebUI.Controllers
                 }
             }
 
-            // If we got this far, something failed, redisplay form
             return View();
         }
 
@@ -147,7 +145,7 @@ namespace OnlineStore.WebUI.Controllers
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Log in failed, please check you email and password!");
+                    ModelState.AddModelError("", "Грешка при влизането! Проверете потребителското име и паролата");
                     return View(model);
             }
         }

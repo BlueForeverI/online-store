@@ -5,35 +5,35 @@
                 <form action="/Product/Search/" method="Get">
                     <div class="search-container">
                         <fieldset class="form-group">
-                            <label for="ProductName">Product Name</label>
+                            <label for="ProductName">Име на продукта</label>
                             <input class="form-control" type="text" id="ProductName" name="productName">
                         </fieldset>
                         <fieldset class="form-group">
-                            <label for="Price">Price From</label>
+                            <label for="Price">Цена от</label>
                             <input class="form-control" type="number" id="PriceFrom" name="priceFrom">
                         </fieldset>
                         <fieldset class="form-group">
-                            <label for="Price">Price To</label>
+                            <label for="Price">Цена до</label>
                             <input class="form-control" type="number" id="PriceTo" name="priceTo">
                         </fieldset>
 
                         <fieldset class="form-group">
-                            <label for="sortBy">Sort By</label>
+                            <label for="sortBy">Сортирай</label>
                             <select name="sortBy" class="form-control">
-                                <option value="name">Name</option>
-                                <option value="price">Price</option>
+                                <option value="name">Име</option>
+                                <option value="price">Цена</option>
                             </select>
                         </fieldset>
                         <fieldset class="form-group">
-                            <label for="asc">Direction</label>
+                            <label for="asc"></label>
                             <select name="asc" class="form-control">
-                                <option value="true">ASC</option>
-                                <option value="false">DESC</option>
+                                <option value="true">възходящо</option>
+                                <option value="false">низходящо</option>
                             </select>
                         </fieldset>
                     </div>
-                    <button type="submit" class="btn btn-primary">Search</button>
-                    <button type="submit" class="btn btn-danger" name="export" value="true">Export</button>
+                    <button type="submit" class="btn btn-primary">Търси</button>
+                    <button type="submit" class="btn btn-danger" name="export" value="true">Експорт</button>
                 </form>
             </div>
         </div>

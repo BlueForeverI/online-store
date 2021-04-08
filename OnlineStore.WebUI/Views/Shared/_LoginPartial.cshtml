@@ -11,49 +11,49 @@
                 <ul class="dropdown-menu">
                     @if (HttpContext.Current.User.IsInRole("Admin"))
                     {
-                        <li>@Html.ActionLink("Profile", "MemberProfile", "Account", new { area = "" }, null)</li>
-                        <li>@Html.ActionLink("Change Password", "ChangePassword", "Account", new { area = "" }, null)</li>
-                        <li>@Html.ActionLink("Dashboard", "Index", "Dashboard", new { Area = "Admin" }, null)</li>
+                        <li>@Html.ActionLink("Профил", "MemberProfile", "Account", new { area = "" }, null)</li>
+                        <li>@Html.ActionLink("Смяна на парола", "ChangePassword", "Account", new { area = "" }, null)</li>
+                        <li>@Html.ActionLink("Табло", "Index", "Dashboard", new { Area = "Admin" }, null)</li>
                         <li class="nav-divider"></li>
-                        <li>@Html.ActionLink("User", "AppUser", "Account", new { area = "Admin" }, null)</li>
-                        <li>@Html.ActionLink("Role", "AppRole", "Account", new { area = "Admin" }, null)</li>
+                        <li>@Html.ActionLink("Потребител", "AppUser", "Account", new { area = "Admin" }, null)</li>
+                        <li>@Html.ActionLink("Роля", "AppRole", "Account", new { area = "Admin" }, null)</li>
                         <li class="nav-divider"></li>
-                        <li>@Html.ActionLink("Product", "Product", "Store", new { area = "Admin" }, null)</li>
-                        <li>@Html.ActionLink("Category", "Category", "Store", new { area = "Admin" }, null)</li>
-                        <li>@Html.ActionLink("Order", "Order", "Store", new { area = "Admin" }, null)</li>
+                        <li>@Html.ActionLink("Продукт", "Product", "Store", new { area = "Admin" }, null)</li>
+                        <li>@Html.ActionLink("Категория", "Category", "Store", new { area = "Admin" }, null)</li>
+                        <li>@Html.ActionLink("Поръчка", "Order", "Store", new { area = "Admin" }, null)</li>
                         <li class="nav-divider"></li>
-                        <li>@Html.ActionLink("My Order", "Index", "MyOrder", new { area = "" }, null)</li>
-                        <li>@Html.ActionLink("My Cart", "Index", "ShoppingCart", new { area = "" }, null)</li>                        
+                        <li>@Html.ActionLink("Моята поръчка", "Index", "MyOrder", new { area = "" }, null)</li>
+                        <li>@Html.ActionLink("Количка", "Index", "ShoppingCart", new { area = "" }, null)</li>                        
                     }
                     @if (HttpContext.Current.User.IsInRole("Advanced"))
                     {
-                        <li>@Html.ActionLink("Profile", "MemberProfile", "Account", new { area = "" }, null)</li>
-                        <li>@Html.ActionLink("Change Password", "ChangePassword", "Account", new { area = "" }, null)</li>
+                        <li>@Html.ActionLink("Профил", "MemberProfile", "Account", new { area = "" }, null)</li>
+                        <li>@Html.ActionLink("Смяна на парола", "ChangePassword", "Account", new { area = "" }, null)</li>
                         <li class="nav-divider"></li>
-                        <li>@Html.ActionLink("My Products", "MyProducts", "Product", new { area = "" }, null)</li>
-                        <li>@Html.ActionLink("My Product Orders", "MyProductOrders", "Product", new { area = "" }, null)</li>
+                        <li>@Html.ActionLink("Моите продукти", "MyProducts", "Product", new { area = "" }, null)</li>
+                        <li>@Html.ActionLink("Моите поръчки", "MyProductOrders", "Product", new { area = "" }, null)</li>
                         <li class="nav-divider"></li>
-                        <li>@Html.ActionLink("My Order", "Index", "MyOrder", new { area = "" }, null)</li>
-                        <li>@Html.ActionLink("My Cart", "Index", "ShoppingCart", new { area = "" }, null)</li>
+                        <li>@Html.ActionLink("Моята поръчка", "Index", "MyOrder", new { area = "" }, null)</li>
+                        <li>@Html.ActionLink("Количка", "Index", "ShoppingCart", new { area = "" }, null)</li>
                     }
                     @if (HttpContext.Current.User.IsInRole("Regular"))
                     {
-                        <li>@Html.ActionLink("Profile", "MemberProfile", "Account", new { area = "" }, null)</li>
-                        <li>@Html.ActionLink("Change Password", "ChangePassword", "Account", new { area = "" }, null)</li>
+                        <li>@Html.ActionLink("Профил", "MemberProfile", "Account", new { area = "" }, null)</li>
+                        <li>@Html.ActionLink("Смяна на парола", "ChangePassword", "Account", new { area = "" }, null)</li>
                         <li class="nav-divider"></li>
-                        <li>@Html.ActionLink("My Order", "Index", "MyOrder", new { area = "" }, null)</li>
-                        <li>@Html.ActionLink("My Cart", "Index", "ShoppingCart", new { area = "" }, null)</li>
+                        <li>@Html.ActionLink("Моята поръчка", "Index", "MyOrder", new { area = "" }, null)</li>
+                        <li>@Html.ActionLink("Количка", "Index", "ShoppingCart", new { area = "" }, null)</li>
                     }
                 </ul>
             </li>
-            <li><a href="javascript:document.getElementById('logoutForm').submit()"><span class="glyphicon glyphicon-log-out"></span> Log off</a></li>            
+            <li><a href="javascript:document.getElementById('logoutForm').submit()"><span class="glyphicon glyphicon-log-out"></span> Изход</a></li>            
         </ul>
     }
 }
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        <li><a href="@Url.Action("Register", "Account")"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-        <li><a href="@Url.Action("Login", "Account")"><span class="glyphicon glyphicon-log-in"></span> Log in</a></li>
+        <li><a href="@Url.Action("Register", "Account")"><span class="glyphicon glyphicon-user"></span> Регистрация</a></li>
+        <li><a href="@Url.Action("Login", "Account")"><span class="glyphicon glyphicon-log-in"></span> Вход</a></li>
     </ul>
 }

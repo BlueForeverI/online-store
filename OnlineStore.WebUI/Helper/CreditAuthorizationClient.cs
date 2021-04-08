@@ -9,19 +9,13 @@ namespace OnlineStore.WebUI.Helper
 {
     public class CreditAuthorizationClient
     {
-        /*
-         *pSecretValue - the secret key issued when you registered at the Credit Gateway
-         *pAppId - the appid issued to you when you registered at the credit gateway
-         *pTransId - the transaction id your system issues to identify the purchase
-         *pTransAmount - the value you are charging for this transaction
-         */
-        public static String GenerateClientRequestHash(String pSecretValue, String pAppId, String pTransId, String pTransAmount)
+        public static string GenerateClientRequestHash(string pSecretValue, string pAppId, string pTransId, string pTransAmount)
         {
             try
             {
-                String secretPartA = pSecretValue.Substring(0, 5);
-                String secretPartB = pSecretValue.Substring(5, 5);
-                String val = secretPartA + "-" + pAppId + "-" + pTransId + "-" + pTransAmount + "-" + secretPartB;
+                string secretPartA = pSecretValue.Substring(0, 5);
+                string secretPartB = pSecretValue.Substring(5, 5);
+                string val = secretPartA + "-" + pAppId + "-" + pTransId + "-" + pTransAmount + "-" + secretPartB;
                 var pwdBytes = Encoding.UTF8.GetBytes(val);
 
                 SHA256 hashAlg = new SHA256Managed();
@@ -44,11 +38,11 @@ namespace OnlineStore.WebUI.Helper
          *pTransAmount - the value you are charging for this transaction
          *pAppStatus - The status of the credit transaction. Values : A = Accepted, D = Denied
          */
-        public static bool VerifyServerResponseHash(String pHash, String pSecretValue, String pAppId, String pTransId, String pTransAmount, String pAppStatus)
+        public static bool VerifyServerResponseHash(string pHash, string pSecretValue, string pAppId, string pTransId, string pTransAmount, string pAppStatus)
         {
-            String secretPartA = pSecretValue.Substring(0, 5);
-            String secretPartB = pSecretValue.Substring(5, 5);
-            String val = secretPartA + "-" + pAppId + "-" + pTransId + "-" + pTransAmount + "-" + pAppStatus + "-" + secretPartB;
+            string secretPartA = pSecretValue.Substring(0, 5);
+            string secretPartB = pSecretValue.Substring(5, 5);
+            string val = secretPartA + "-" + pAppId + "-" + pTransId + "-" + pTransAmount + "-" + pAppStatus + "-" + secretPartB;
             var pwdBytes = Encoding.UTF8.GetBytes(val);
 
             SHA256 hashAlg = new SHA256Managed();

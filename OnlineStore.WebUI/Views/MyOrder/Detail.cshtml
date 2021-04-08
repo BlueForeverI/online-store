@@ -4,24 +4,24 @@
     <div class="form-group">
         @Html.LabelFor(o => o.UserId, new { @class = "col-md-2 control-label" })
         <div class="col-sm-10">
-            @Html.TextBoxFor(o => o.UserId, new { @class = "form-control", @placeholder = "Customer Name", disabled = "true" })
+            @Html.TextBoxFor(o => o.UserId, new { @class = "form-control", @placeholder = "Потребител", disabled = "true" })
         </div>
     </div>
     <div class="form-group">
         @Html.LabelFor(o => o.Address, new { @class = "col-md-2 control-label" })
         <div class="col-sm-10">
-            @Html.TextBoxFor(o => o.Address, new { @class = "form-control", @placeholder = "Customer Name", disabled = "true" })
+            @Html.TextBoxFor(o => o.Address, new { @class = "form-control", @placeholder = "Адрес", disabled = "true" })
         </div>
     </div>
     <div class="form-group">
         @Html.LabelFor(o => o.CreditCard)
         <div class="col-sm-10">
-            @Html.TextBoxFor(o => o.CreditCard, new { @class = "form-control", @placeholder = "Customer Name", disabled = "true" })
+            @Html.TextBoxFor(o => o.CreditCard, new { @class = "form-control", @placeholder = "Кредитна карта", disabled = "true" })
         </div>
     </div>
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-            @Html.ActionLink("My Orders", "Index", "MyOrder");
+            @Html.ActionLink("Моите поръчки", "Index", "MyOrder");
         </div>
     </div>
 }

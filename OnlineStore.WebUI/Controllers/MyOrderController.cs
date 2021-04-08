@@ -41,7 +41,7 @@ namespace OnlineStore.WebUI.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Message = "Error Occurs:" + ex.Message;
+                ViewBag.Message = "Грешка: " + ex.Message;
             }
 
             return View(list);
@@ -58,11 +58,11 @@ namespace OnlineStore.WebUI.Controllers
             var order = _service.Get(id);
             if (order == null)
             {
-                ViewBag.Message = string.Format("No such order [{0}] found.", id);
+                ViewBag.Message = string.Format("Поръчка [{0}] не е намерене.", id);
             }
             else {
                 _service.Delete(id);
-                ViewBag.Message = string.Format("Order [{0}] has been deleted!", id);
+                ViewBag.Message = string.Format("Поръчка [{0}] е изтрита!", id);
             }
 
             return RedirectToAction("Index");

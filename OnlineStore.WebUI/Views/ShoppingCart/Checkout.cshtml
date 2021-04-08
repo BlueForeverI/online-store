@@ -1,6 +1,6 @@
 ﻿@model OnlineStore.ViewModels.CheckoutViewModel
 @{
-    ViewBag.Title = "Checkout";
+    ViewBag.Title = "Завършване на поръчка";
 }
 @Html.Partial("_FrontPartial")
 <div class="box-body">
@@ -9,7 +9,7 @@
         @Html.ValidationSummary(false, "", new { @class = "text-danger" })
         <div class="form-group">
             <div class="col-sm-2"></div>
-            <div class="col-sm-10"><h3>Shipping Address</h3></div>
+            <div class="col-sm-10"><h3>Адрес за доставка</h3></div>
         </div>
         <div class="form-group">
             @Html.LabelFor(c => c.FullName, new { @class = "col-md-2 control-label" })
@@ -38,13 +38,13 @@
         <div class="form-group">
             @Html.LabelFor(c => c.Zip, new { @class = "col-md-2 control-label" })
             <div class="col-sm-10">
-                @Html.TextBoxFor(c => c.Zip, new { @class = "form-control", @placeholder = "Zip" })
+                @Html.TextBoxFor(c => c.Zip, new { @class = "form-control", @placeholder = "ПК" })
             </div>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                @Html.ActionLink("Back to Cart", "Index", new { controller = "ShoppingCart" }, new { @class="btn btn-danger" })
-                <input type="submit" style="padding-left:20px" class="btn btn-primary" value="Place Order" />
+                @Html.ActionLink("Назад към количката", "Index", new { controller = "ShoppingCart" }, new { @class="btn btn-danger" })
+                <input type="submit" style="padding-left:20px" class="btn btn-primary" value="Завърши поръчка" />
             </div>
         </div>
     }
