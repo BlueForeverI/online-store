@@ -73,7 +73,10 @@ namespace OnlineStore.WebUI.Apis
             }
             else
             {
-                ProductDTO productDTO = new ProductDTO { Id = product.Id, ProductName = product.ProductName, CategoryId = product.CategoryId, Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount, UserId = product.UserId };
+                ProductDTO productDTO = new ProductDTO { Id = product.Id, ProductName = product.ProductName, 
+                    CategoryId = product.CategoryId, Price = product.Price, Image = product.Image, 
+                    Condition = product.Condition, Discount = product.Discount, UserId = product.UserId,
+                    UpdatedOn = product.UpdatedOn };
                 HttpContext.Current.Cache["Product" + id] = productDTO;
                 return productDTO;
             }
@@ -181,7 +184,6 @@ namespace OnlineStore.WebUI.Apis
 
                 if (product.UpdatedOn > value.UpdatedOn)
                 {
-
                     return Request.CreateResponse(HttpStatusCode.BadRequest,
                         "Този продукт вече е променен!");
                 }

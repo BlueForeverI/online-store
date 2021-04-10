@@ -19,6 +19,6 @@ namespace OnlineStore.WebUI.Areas.Admin.Models
         public string Condition { get; set; }
         [Required]
         public int Discount { get; set; }
-        public DateTime UpdatedOn { get; set; }
+        public DateTime? UpdatedOn { get; set; }
     }
 }
