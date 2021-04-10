@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using GameStore.Domain.Identity;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using OnlineStore.Domain.Identity;
 using OnlineStore.Domain.Infrastructure;
@@ -16,7 +17,7 @@ namespace OnlineStore.Services
         {
             using (OnlineStoreDBContext context = new OnlineStoreDBContext())
             {
-                PasswordHasher hasher = new PasswordHasher();
+                var hasher = new CustomHasher();
                 var user = new AppUser
                 {
                     UserName = username,

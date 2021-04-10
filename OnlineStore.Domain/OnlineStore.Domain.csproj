@@ -89,6 +89,7 @@
     <Compile Include="Identity\AppUserManager.cs" />
     <Compile Include="Identity\AppRoleManager.cs" />
     <Compile Include="Identity\AppUserStore.cs" />
+    <Compile Include="Identity\CustomHasher.cs" />
     <Compile Include="Infrastructure\OnlineStoreDBContext.cs" />
     <Compile Include="Identity\AppRole.cs" />
     <Compile Include="Identity\AppUser.cs" />

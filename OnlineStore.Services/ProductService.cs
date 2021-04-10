@@ -15,7 +15,10 @@ namespace OnlineStore.Services
                 var query = from product in context.Products
                             join category in context.Categories
                               on product.CategoryId equals category.Id
-                            select new ProductDTO { Id = product.Id, ProductName = product.ProductName, CategoryId = product.CategoryId, CategoryName = category.CategoryName, Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount, UserId = product.UserId };
+                            select new ProductDTO { Id = product.Id, ProductName = product.ProductName, 
+                                CategoryId = product.CategoryId, CategoryName = category.CategoryName, 
+                                Price = product.Price, Image = product.Image, Condition = product.Condition, 
+                                Discount = product.Discount, UserId = product.UserId, UpdatedOn = product.UpdatedOn };
 
                 return query.ToList();
             }
@@ -42,7 +45,10 @@ namespace OnlineStore.Services
                             where product.UserId == userId
                             join category in context.Categories
                               on product.CategoryId equals category.Id
-                            select new ProductDTO { Id = product.Id, ProductName = product.ProductName, CategoryId = product.CategoryId, CategoryName = category.CategoryName, Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount, UserId = product.UserId };
+                            select new ProductDTO { Id = product.Id, ProductName = product.ProductName, 
+                                CategoryId = product.CategoryId, CategoryName = category.CategoryName, 
+                                Price = product.Price, Image = product.Image, Condition = product.Condition, 
+                                Discount = product.Discount, UserId = product.UserId, UpdatedOn = product.UpdatedOn };
 
                 return query.ToList();
             }
@@ -56,7 +62,10 @@ namespace OnlineStore.Services
                             where product.UserId == userId
                             join category in context.Categories
                               on product.CategoryId equals category.Id
-                            select new ProductOrderDTO { Id = product.Id, ProductName = product.ProductName, CategoryId = product.CategoryId, CategoryName = category.CategoryName, Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount, UserId = product.UserId };
+                            select new ProductOrderDTO { Id = product.Id, ProductName = product.ProductName, 
+                                CategoryId = product.CategoryId, CategoryName = category.CategoryName, Price = product.Price, 
+                                Image = product.Image, Condition = product.Condition, Discount = product.Discount, 
+                                UserId = product.UserId, UpdatedOn = product.UpdatedOn };
                 return query.ToList();
             }
         }
@@ -70,8 +79,10 @@ namespace OnlineStore.Services
                                && product.UserId == userId
                             join category in context.Categories
                               on product.CategoryId equals category.Id
-                            select new ProductDTO { Id = product.Id, ProductName = product.ProductName, CategoryId = product.CategoryId, CategoryName = category.CategoryName,
-                                Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount, UserId = product.UserId };
+                            select new ProductDTO { Id = product.Id, ProductName = product.ProductName, 
+                                CategoryId = product.CategoryId, CategoryName = category.CategoryName,
+                                Price = product.Price, Image = product.Image, Condition = product.Condition, 
+                                Discount = product.Discount, UserId = product.UserId, UpdatedOn = product.UpdatedOn };
                 return query.ToList();
             }
         }
@@ -100,8 +111,10 @@ namespace OnlineStore.Services
                                 && product.Price >= fromPrice && product.Price <= toPrice
                             join category in context.Categories
                               on product.CategoryId equals category.Id
-                            select new ProductDTO { Id = product.Id, ProductName = product.ProductName, CategoryId = product.CategoryId, CategoryName = category.CategoryName,
-                                Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount, UserId = product.UserId };
+                            select new ProductDTO { Id = product.Id, ProductName = product.ProductName, 
+                                CategoryId = product.CategoryId, CategoryName = category.CategoryName,
+                                Price = product.Price, Image = product.Image, Condition = product.Condition, 
+                                Discount = product.Discount, UserId = product.UserId, UpdatedOn = product.UpdatedOn };
                 return query.ToList();
             }
         }
@@ -129,7 +142,8 @@ namespace OnlineStore.Services
                                 Image = product.Image,
                                 Condition = product.Condition,
                                 Discount = product.Discount,
-                                UserId = product.UserId
+                                UserId = product.UserId,
+                                UpdatedOn = product.UpdatedOn
                             };
                 return query.ToList();
             }
@@ -143,8 +157,10 @@ namespace OnlineStore.Services
                             where product.Id == id
                             join category in context.Categories
                               on product.CategoryId equals category.Id
-                            select new ProductDTO { Id = product.Id, ProductName = product.ProductName, CategoryId = product.CategoryId, CategoryName = category.CategoryName,
-                                Price = product.Price, Image = product.Image, Condition = product.Condition, Discount = product.Discount, UserId = product.UserId };
+                            select new ProductDTO { Id = product.Id, ProductName = product.ProductName, 
+                                CategoryId = product.CategoryId, CategoryName = category.CategoryName,
+                                Price = product.Price, Image = product.Image, Condition = product.Condition, 
+                                Discount = product.Discount, UserId = product.UserId, UpdatedOn = product.UpdatedOn };
                 return query.FirstOrDefault();
             }
         }

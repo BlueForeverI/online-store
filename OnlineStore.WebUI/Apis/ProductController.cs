@@ -147,7 +147,7 @@ namespace OnlineStore.WebUI.Apis
         {
             if (ModelState.IsValid)
             {
-                if (value == null || String.IsNullOrEmpty(value.ProductName))
+                if (value == null || string.IsNullOrEmpty(value.ProductName))
                 {
                     return Request.CreateResponse(HttpStatusCode.OK, "Името на продукта не може да е празно!");
                 }
@@ -177,6 +177,13 @@ namespace OnlineStore.WebUI.Apis
                 if (product == null)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Няма такъв продукт!");
+                }
+
+                if (product.UpdatedOn > value.UpdatedOn)
+                {
+
+                    return Request.CreateResponse(HttpStatusCode.BadRequest,
+                        "Този продукт вече е променен!");
                 }
 
                 bool isAdvanced = HttpContext.Current.User.IsInRole("Advanced");

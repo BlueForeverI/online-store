@@ -8,6 +8,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GameStore.Domain.Identity;
 
 namespace OnlineStore.Domain.Infrastructure
 {
@@ -25,16 +26,16 @@ namespace OnlineStore.Domain.Infrastructure
             GetCategories().ForEach(c => context.Categories.Add(c));
             GetProducts().ForEach(c => context.Products.Add(c));
             context.SaveChanges();
-            PasswordHasher hasher = new PasswordHasher();
-            var user = new AppUser { UserName = "admin", Email = "admin@gamestore.com", PasswordHash = hasher.HashPassword("admin"), Membership = "Admin" };
+            var hasher = new CustomHasher();
+            var user = new AppUser { UserName = "admin", Email = "admin@gamestore.com", PasswordHash = hasher.HashPassword("admin"), Membership = "Admin", EmailConfirmed = true };
             var role = context.Roles.Where(r => r.Name == "Admin").First();
             user.Roles.Add(new IdentityUserRole { RoleId = role.Id, UserId = user.Id });
             context.Users.Add(user);
-            user = new AppUser { UserName = "regular", Email = "regular@gamestore.com", PasswordHash = hasher.HashPassword("regular"), Membership = "Regular" };
+            user = new AppUser { UserName = "regular", Email = "regular@gamestore.com", PasswordHash = hasher.HashPassword("regular"), Membership = "Regular", EmailConfirmed = true };
             role = context.Roles.Where(r => r.Name == "Regular").First();
             user.Roles.Add(new IdentityUserRole { RoleId = role.Id, UserId = user.Id });
             context.Users.Add(user);
-            user = new AppUser { UserName = "advanced", Email = "advanced@gamestore.com", PasswordHash = hasher.HashPassword("advanced"), Membership = "Advanced" };
+            user = new AppUser { UserName = "advanced", Email = "advanced@gamestore.com", PasswordHash = hasher.HashPassword("advanced"), Membership = "Advanced", EmailConfirmed = true };
             role = context.Roles.Where(r => r.Name == "Advanced").First();
             user.Roles.Add(new IdentityUserRole { RoleId = role.Id, UserId = user.Id });
             context.Users.Add(user);
@@ -55,9 +56,9 @@ namespace OnlineStore.Domain.Infrastructure
         private static List<Category> GetCategories()
         {
             var categories = new List<Category> {
-               new Category {Id=1, CategoryName="Console"},
-               new Category {Id=2, CategoryName="Accessory"},
-               new Category {Id=3, CategoryName="Game"}
+               new Category {Id=1, CategoryName="Конзоли"},
+               new Category {Id=2, CategoryName="Аксесоари"},
+               new Category {Id=3, CategoryName="Игри"}
             };
 
             return categories;

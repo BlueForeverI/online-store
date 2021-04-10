@@ -20,12 +20,16 @@ namespace OnlineStore.Domain.Model
         [Display(Name = "Категория")]
         public int CategoryId { get; set; }
         [Required]
+        [Display(Name = "Цена")]
         public double Price { get; set; }
         [Required]
+        [Display(Name = "Снимка")]
         public string Image { get; set; }
         [Required]
+        [Display(Name = "Състояние")]
         public string Condition { get; set; }
         [Required]
+        [Display(Name = "Отстъпка")]
         public int Discount { get; set; }
         [Required]
         public string UserId { get; set; }

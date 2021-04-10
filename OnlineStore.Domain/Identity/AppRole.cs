@@ -24,10 +24,10 @@ namespace OnlineStore.Domain.Identity
 
     public class RoleMetaData
     {
-        [Required(ErrorMessage = "Please enter a role name")]
+        [Required(ErrorMessage = "Моля въведете име на роля")]
         public string Name { get; set; }
         [DataType(DataType.MultilineText)]
-        [Required(ErrorMessage = "Please enter a description")]
+        [Required(ErrorMessage = "Моле въведете описание")]
         public string Description { get; set; }
     }
 }

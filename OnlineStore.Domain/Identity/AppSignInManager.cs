@@ -21,7 +21,6 @@ namespace OnlineStore.Domain.Identity
 
         public override Task<SignInStatus> PasswordSignInAsync(string userName, string password, bool isPersistent, bool shouldLockout)
         {
-
             var user = UserManager.Find(userName, password);
             if (user == null)
                 return Task.FromResult(SignInStatus.Failure);

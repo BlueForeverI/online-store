@@ -12,7 +12,7 @@ namespace OnlineStore.Domain.Infrastructure
         public OnlineStoreDBContext()
             : base("name=OnlineStoreDBContext", throwIfV1Schema: false)
         {
-            Database.SetInitializer<OnlineStoreDBContext>(new IdentityDbInitializer());
+            Database.SetInitializer(new IdentityDbInitializer());
         }
 
         public override int SaveChanges()

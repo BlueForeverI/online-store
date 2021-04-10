@@ -27,10 +27,10 @@ namespace OnlineStore.Domain.Identity
 
     public class UserMetaData
     {
-        [Required(ErrorMessage = "Please enter a role name")]
+        [Required(ErrorMessage = "Моля въведете потребителско име")]
         public string Name { get; set; }
         [DataType(DataType.MultilineText)]
-        [Required(ErrorMessage = "Please enter a description")]
+        [Required(ErrorMessage = "Моля въведете описание")]
         public string Description { get; set; }
     }
 }

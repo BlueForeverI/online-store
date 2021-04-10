@@ -87,12 +87,13 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Редактирай категория</h4>
+                <h4 class="modal-title">Редактирай продукт</h4>
             </div>
             <div class="modal-body">               
                 @Html.ValidationSummary(false, "", new { @class = "text-danger" })
                 @Html.HiddenFor(p => p.Id)
                 @Html.HiddenFor(p => p.UserId)
+                @Html.HiddenFor(p => p.UpdatedOn)
                 <fieldset class="form-group">
                     @Html.LabelFor(p => p.ProductName)
                     @Html.TextBoxFor(p => p.ProductName, new { @class = "form-control" })

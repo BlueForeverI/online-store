@@ -51,7 +51,6 @@ namespace OnlineStore.WebUI.Controllers
                 return View("RegistrationSuccessful");
             }
 
-            // If we got this far, something failed, redisplay form
             return View(model);
         }
 

@@ -10,6 +10,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using GameStore.Domain.Identity;
 
 namespace OnlineStore.Domain.Identity
 {
@@ -29,12 +30,12 @@ namespace OnlineStore.Domain.Identity
             {
                 if (!user.Membership.Equals("Regular") && !user.Membership.Equals("Advanced"))
                 {
-                    return Task.FromResult(IdentityResult.Failed("Invalid membership!"));
+                    return Task.FromResult(IdentityResult.Failed("Грешна роля!"));
                 }
                 AppUser existUser = _store.Users.Where(u => u.Email == user.Email).FirstOrDefault();
                 if (existUser != null)
                 {
-                    return Task.FromResult(IdentityResult.Failed("User with email ["+ user.Email + "] already exists!"));
+                    return Task.FromResult(IdentityResult.Failed("Потребител с email ["+ user.Email + "] вече съществува!"));
                 }
 
                 OnlineStoreDBContext context = (OnlineStoreDBContext)_store.Context;
@@ -44,6 +45,8 @@ namespace OnlineStore.Domain.Identity
                 newUser.PasswordHash = PasswordHasher.HashPassword(password);
                 newUser.PhoneNumber = user.PhoneNumber;
                 newUser.Membership = user.Membership;
+                newUser.EmailConfirmed = true;
+                newUser.PhoneNumberConfirmed = true;
 
                 var role = context.Roles.Where(r => r.Name == user.Membership).First();
                 newUser.Roles.Add(new IdentityUserRole { RoleId = role.Id, UserId = newUser.Id });
@@ -55,7 +58,7 @@ namespace OnlineStore.Domain.Identity
             }
             catch (Exception ex)
             {
-                return Task.FromResult(IdentityResult.Failed("DB Error"));
+                return Task.FromResult(IdentityResult.Failed("Грешка с базата данни"));
             }
 
         }
@@ -82,7 +85,6 @@ namespace OnlineStore.Domain.Identity
 
             string hashedPassword = PasswordHasher.HashPassword(password);
             return _store.Users.Where(u => u.Email == userName && u.PasswordHash == hashedPassword).FirstOrDefaultAsync();
-
         }
 
         public override Task<AppUser> FindByEmailAsync(string email)
@@ -92,16 +94,14 @@ namespace OnlineStore.Domain.Identity
         public static AppUserManager Create(IdentityFactoryOptions<AppUserManager> options, IOwinContext context)
         {
             var manager = new AppUserManager(new AppUserStore(context.Get<OnlineStoreDBContext>()));
-            // Configure validation logic for usernames
             manager.UserValidator = new UserValidator<AppUser>(manager)
             {
                 AllowOnlyAlphanumericUserNames = false,
                 RequireUniqueEmail = true
             };
 
-            manager.PasswordHasher = new PasswordHasher();
+            manager.PasswordHasher = new CustomHasher();
 
-            // Configure validation logic for passwords
             manager.PasswordValidator = new PasswordValidator
             {
                 RequiredLength = 6,
@@ -111,8 +111,7 @@ namespace OnlineStore.Domain.Identity
                 RequireUppercase = true,
             };
 
-            // Configure user lockout defaults
-            manager.UserLockoutEnabledByDefault = true;
+            manager.UserLockoutEnabledByDefault = false;
             manager.DefaultAccountLockoutTimeSpan = TimeSpan.FromMinutes(5);
             manager.MaxFailedAccessAttemptsBeforeLockout = 5;
 
