@@ -50,11 +50,6 @@ namespace OnlineStore.WebUI.Controllers
             return View(list);
         }
 
-        public ActionResult Detail()
-        {
-            return View();
-        }
-
         [HttpPost]
         public ActionResult CancelOrder(int id)
         {

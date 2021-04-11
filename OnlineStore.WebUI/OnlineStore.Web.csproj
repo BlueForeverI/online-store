@@ -306,7 +306,6 @@
     <Content Include="Views\ShoppingCart\Checkout.cshtml" />
     <Content Include="Views\ShoppingCart\PlaceOrder.cshtml" />
     <Content Include="Views\MyOrder\Index.cshtml" />
-    <Content Include="Views\MyOrder\Detail.cshtml" />
     <Content Include="Views\Product\Detail.cshtml" />
     <Content Include="Views\Product\List.cshtml" />
     <Content Include="Views\Shared\_FrontPartial.cshtml" />
