@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 using GameStore.Domain.Identity;
 
@@ -17,7 +16,6 @@ namespace OnlineStore.Domain.Identity
     public class AppUserManager : UserManager<AppUser>
     {
         private AppUserStore _store;
-        private string _membership = "";
         public AppUserManager(AppUserStore store)
             : base(store)
         {
@@ -116,11 +114,6 @@ namespace OnlineStore.Domain.Identity
             manager.MaxFailedAccessAttemptsBeforeLockout = 5;
 
             return manager;
-        }
-
-        public void SetMembership(string membership)
-        {
-            _membership = membership;
         }
     }
 }

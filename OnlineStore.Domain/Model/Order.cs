@@ -14,21 +14,21 @@ namespace OnlineStore.Domain.Model
         {
             this.OrderItems = new HashSet<OrderItem>();
         }
-        [Required]
+        [Required(ErrorMessage = "Полето Потребител е задължително")]
         public string UserId { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Полето Име е задължително")]
         public string FullName { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Полето Адрес е задължително")]
         public string Address { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Полето Град е задължително")]
         public string City { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Полето Област е задължително")]
         public string State { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Полето Пощенски код е задължително")]
         public string Zip { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Полето Номер за потвърждение е задължително")]
         public string ConfirmationNumber { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Полето Дата за доставка е задължително")]
         public DateTime DeliveryDate { get; set; }
         public virtual ICollection<OrderItem> OrderItems { get; set; }
     }

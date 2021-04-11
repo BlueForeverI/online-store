@@ -15,14 +15,14 @@ namespace OnlineStore.Domain.Model
         {
 
         }
-        [Required]
+        [Required(ErrorMessage = "Полето Продукт е задължително")]
         public int ProductId { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Полето Потребител е задължително")]
         public int UserId { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Полето Рейтинг е задължително")]
         public int Rating { get; set; }
         public string Comments { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Полето Дата е задължително")]
         public DateTime ReviewDate { get; set; }
         public virtual Product Product { get; set; }
         public virtual AppUser User { get; set; }

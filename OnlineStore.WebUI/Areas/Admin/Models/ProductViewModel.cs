@@ -7,20 +7,20 @@ namespace OnlineStore.WebUI.Areas.Admin.Models
     {
         public int Id { get; set; }
         [Display(Name = "Име")]
-        [Required]
+        [Required(ErrorMessage = "Полето Име е задължително")]
         public string ProductName { get; set; }
         [Display(Name = "Категория")]
         public int CategoryId { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Полето Цена е задължително")]
         [Display(Name = "Цена")]
         public double Price { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Полето Снимка е задължително")]
         [Display(Name = "Снимка")]
         public string Image { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Полето Състояние е задължително")]
         [Display(Name = "Състояние (нов/използван)")]
         public string Condition { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Полето Отстъпка е задължително")]
         [Display(Name = "Отстъпка %")]
         public int Discount { get; set; }
         public DateTime? UpdatedOn { get; set; }

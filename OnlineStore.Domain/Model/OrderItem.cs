@@ -14,11 +14,11 @@ namespace OnlineStore.Domain.Model
         {
 
         }
-        [Required]
+        [Required(ErrorMessage = "Полето ID е задължително")]
         public int OrderId { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Полето Продукт е задължително")]
         public int ProductId { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Полето Количество е задължително")]
         public int Quantity { get; set; }
         public virtual Order Order { get; set; }
         public virtual Product Product { get; set; }

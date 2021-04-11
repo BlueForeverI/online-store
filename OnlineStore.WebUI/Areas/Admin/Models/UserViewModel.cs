@@ -1,26 +1,20 @@
-﻿using OnlineStore.Domain.Identity;
-using OnlineStore.Domain.Model;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace OnlineStore.WebUI.Areas.Admin.Models
 {
     public class UserViewModel
     {
         public string Id { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Полето Email е задължително")]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Полето Потребителско име е задължително")]
         [Display(Name = "Потребителско име")]
         public string UserName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Полето Роля е задължително")]
         [Display(Name = "Роля")]
         public string Membership { get; set; }
     }

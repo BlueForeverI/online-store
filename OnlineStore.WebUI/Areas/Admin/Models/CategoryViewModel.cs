@@ -1,17 +1,12 @@
-﻿using OnlineStore.Domain.Identity;
-using OnlineStore.Domain.Model;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 namespace OnlineStore.WebUI.Areas.Admin.Models
 {
     public class CategoryViewModel
     {
         public int CategoryId { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Полето Име е задължително")]
         public String CategoryName { get; set; }
     }
 }

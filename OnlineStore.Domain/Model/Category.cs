@@ -15,7 +15,7 @@ namespace OnlineStore.Domain.Model
 
         }
         [Display(Name = "Категория")]
-        [Required]
+        [Required(ErrorMessage = "Полето Име е задължително")]
         public string CategoryName { get; set; }
     }
 }

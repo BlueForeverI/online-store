@@ -24,7 +24,7 @@ namespace GameStore.Domain.Identity
 
         public PasswordVerificationResult VerifyHashedPassword(string hashedPassword, string providedPassword)
         {
-            String hash = this.HashPassword(providedPassword);
+            string hash = this.HashPassword(providedPassword);
             if (hash == hashedPassword)
                 return PasswordVerificationResult.Success;
             else

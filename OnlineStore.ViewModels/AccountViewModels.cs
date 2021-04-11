@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace OnlineStore.ViewModels
 {
     public class RegisterViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Полето Email е задължително")]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Полето Парола е задължително")]
         [StringLength(100, ErrorMessage = "{0} трябва да е поне {2} символа.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Парола")]
@@ -23,22 +19,22 @@ namespace OnlineStore.ViewModels
         [Display(Name = "Потвърди паролата")]
         [Compare("Password", ErrorMessage = "Паролите не съвпадат.")]
         public string ConfirmPassword { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Полето Потребителско име е задължително")]
         [Display(Name = "Потребителско име")]
         public string UserName { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Полето Роля е задължително")]
         [Display(Name = "Роля")]
         public string Membership { get; set; }
     }
 
     public class LoginViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Полето Email е задължително")]
         [Display(Name = "Email")]
         [EmailAddress]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Полето Парола е задължително")]
         [DataType(DataType.Password)]
         [Display(Name = "Парола")]
         public string Password { get; set; }
@@ -49,12 +45,12 @@ namespace OnlineStore.ViewModels
 
     public class ChangePasswordViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Полето Текуща парола е задължително")]
         [DataType(DataType.Password)]
         [Display(Name = "Текуща парола")]
         public string OldPassword { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Полето Парола е задължително")]
         [StringLength(100, ErrorMessage = "{0} трябва да е поне {2} символа.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Парола")]
