@@ -165,7 +165,12 @@
             var url = '/api/Product/GetByUserId/?CategoryId=' + categoryid + '&CategoryName=AAA';
             $.getJSON(url, function (data) {
                 $.each(data, function (i, product) {
-                    $('#modelList tbody').append("<tr><td>" + product.Id + "</td><td>" + product.ProductName + "</td><td>" + product.CategoryName + "</td><td>" + formatter.format(product.Price) + "</td><td>" + product.Image + "</td><td>" + product.Condition + "</td><td>" + product.Discount + "</td><td><span><a class='btn btn-success' href='javascript:editModel(\"" + product.Id + "\");'> Редактирай</a></span><span style='padding-left: 5px'><a class='btn btn-danger' href='javascript:deleteModel(\"" + product.Id + "\");'> Изтрий</a></span></td></tr>");
+                    $('#modelList tbody').append("<tr><td>" + product.Id + "</td><td>" + product.ProductName +
+                        "</td><td>" + product.CategoryName + "</td><td>" + formatter.format(product.Price) +
+                        "</td><td>" + product.Image + "</td><td>" + product.Condition + "</td><td>" + product.Discount +
+                        "%</td><td><span><a class='btn btn-success' href='javascript:editModel(\"" + product.Id +
+                        "\");'> Редактирай</a></span><span style='padding-left: 5px'><a class='btn btn-danger' href='javascript:deleteModel(\"" + product.Id +
+                        "\");'> Изтрий</a></span></td></tr>");
                 });
             });
         }

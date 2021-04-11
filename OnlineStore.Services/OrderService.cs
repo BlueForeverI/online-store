@@ -20,8 +20,8 @@ namespace OnlineStore.Services
                                on o.UserId equals u.Id
                              orderby o.Id descending
                              select new { o.Id, o.UserId, u.UserName, o.FullName, o.Address, o.City, o.State, o.Zip, o.ConfirmationNumber, o.DeliveryDate };
-                list = orders.Select(o => new OrderDTO { OrderId = o.Id, UserId = o.UserId, UserName = o.UserName, FullName = o.FullName, Address = o.Address, City = o.City, State = o.State, Zip = o.Zip, ConfirmationNumber = o.ConfirmationNumber, DeliveryDate = o.DeliveryDate }).ToList();
-
+                list = orders.Select(o => new OrderDTO { OrderId = o.Id, UserId = o.UserId, UserName = o.UserName, FullName = o.FullName, 
+                    Address = o.Address, City = o.City, State = o.State, Zip = o.Zip, ConfirmationNumber = o.ConfirmationNumber, DeliveryDate = o.DeliveryDate }).ToList();
             }
 
             return list;
@@ -40,7 +40,9 @@ namespace OnlineStore.Services
                              where i.ProductId == productId
                              orderby o.Id descending
                              select new { o.Id, o.UserId, u.UserName, o.FullName, o.Address, o.City, o.State, o.Zip, o.ConfirmationNumber, o.DeliveryDate };
-                return orders.Select(o => new OrderDTO { OrderId = o.Id, UserId = o.UserId, UserName = o.UserName, FullName = o.FullName, Address = o.Address, City = o.City, State = o.State, Zip = o.Zip, ConfirmationNumber = o.ConfirmationNumber, DeliveryDate = o.DeliveryDate }).ToList();
+                return orders.Select(o => new OrderDTO { OrderId = o.Id, UserId = o.UserId, UserName = o.UserName, 
+                    FullName = o.FullName, Address = o.Address, City = o.City, State = o.State, Zip = o.Zip, 
+                    ConfirmationNumber = o.ConfirmationNumber, DeliveryDate = o.DeliveryDate }).ToList();
             }
         }
         public List<OrderItemDTO> GetOrderItemDTOs(int id)

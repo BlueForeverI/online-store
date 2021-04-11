@@ -64,7 +64,6 @@ namespace OnlineStore.WebUI.Controllers
             checkout.FullName = "Петър Петров";
             checkout.Address = "ж-к Люлин";
             checkout.City = "София";
-            checkout.State = "София";
             checkout.Zip = "1000";
             ViewBag.States = State.List();
             return View(checkout);
@@ -86,67 +85,41 @@ namespace OnlineStore.WebUI.Controllers
             }
 
             Session["Checkout"] = value;
-
-            return View("Index", "ShoppingCart");
-        }
-
-        public ActionResult ProcessCreditResponse(String TransId, String TransAmount, String StatusCode, String AppHash)
-        {
-            string AppId = ConfigurationHelper.GetAppId2();
-            string SharedKey = ConfigurationHelper.GetSharedKey2();
-
-            if (CreditAuthorizationClient.VerifyServerResponseHash(AppHash, SharedKey, AppId, TransId, TransAmount, StatusCode))
-            {
-                switch (StatusCode)
-                {
-                    case ("A"): ViewBag.TransactionStatus = "Поръчката ви е създадена успешно!"; break;
-                    case ("D"): ViewBag.TransactionStatus = "Транзакцията е отказана!"; break;
-                    case ("C"): ViewBag.TransactionStatus = "Транзакцията е прекратена!"; break;
-                }
-            }
-            else
-            {
-                ViewBag.TransactionStatus = "Грешка при потвърждение на плащането.";
-            }
-
             OrderViewModel model = new OrderViewModel();
-
-            if (StatusCode.Equals("A"))
+            if (value != null)
             {
-                ShoppingCart cart = (ShoppingCart)Session["ShoppingCart"];
-                CheckoutViewModel value = (CheckoutViewModel)Session["Checkout"];
-                if (value != null)
-                {                    
-                    try
-                    {
-                        Order newOrder = new Order();
-                        newOrder.FullName = value.FullName;
-                        newOrder.Address = value.Address;
-                        newOrder.City = value.City;
-                        newOrder.State = value.State;
-                        newOrder.Zip = value.Zip;
-                        newOrder.DeliveryDate = DateTime.Now.AddDays(14);
-                        newOrder.ConfirmationNumber = DateTime.Now.ToString("yyyyMMddHHmmss");
-                        newOrder.UserId = User.Identity.GetUserId();
-                        newOrder = _orderService.Add(newOrder);
+                try
+                {
+                    Order newOrder = new Order();
+                    newOrder.FullName = value.FullName;
+                    newOrder.Address = value.Address;
+                    newOrder.City = value.City;
+                    newOrder.Zip = value.Zip;
+                    newOrder.DeliveryDate = DateTime.Now.AddDays(14);
+                    newOrder.ConfirmationNumber = DateTime.Now.ToString("yyyyMMddHHmmss");
+                    newOrder.State = "Потвърдена";
+                    newOrder.UserId = User.Identity.GetUserId();
+                    newOrder = _orderService.Add(newOrder);
 
-                        cart.GetItems().ForEach(c => 
-                            _orderService.AddOrderItem(
-                                new OrderItem { OrderId = newOrder.Id, ProductId = c.GetItemId(), 
-                                    Quantity = c.Quantity 
-                                }));
-                        System.Web.HttpContext.Current.Cache.Remove("OrderList");
-                        Session["ShoppingCart"] = null;
-                        Session["CartCount"] = 0;
-                        Session["OrderCount"] = (int)Session["OrderCount"] + 1;
+                    cart.GetItems().ForEach(c =>
+                        _orderService.AddOrderItem(
+                            new OrderItem
+                            {
+                                OrderId = newOrder.Id,
+                                ProductId = c.GetItemId(),
+                                Quantity = c.Quantity
+                            }));
+                    System.Web.HttpContext.Current.Cache.Remove("OrderList");
+                    Session["ShoppingCart"] = null;
+                    Session["CartCount"] = 0;
+                    Session["OrderCount"] = (int)Session["OrderCount"] + 1;
 
-                        model = _orderService.GetOrderViewModel(newOrder.Id);
-                        model.Items = _orderService.GetOrderItemViewModels(newOrder.Id);
-                    }
-                    catch (Exception ex)
-                    {
-                        ViewBag.Message = "Error Occurs:" + ex.Message;
-                    }
+                    model = _orderService.GetOrderViewModel(newOrder.Id);
+                    model.Items = _orderService.GetOrderItemViewModels(newOrder.Id);
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.Message = "Error Occurs:" + ex.Message;
                 }
             }
 

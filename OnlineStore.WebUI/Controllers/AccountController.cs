@@ -54,55 +54,6 @@ namespace OnlineStore.WebUI.Controllers
             return View(model);
         }
 
-        [AllowAnonymous]
-        public async Task<ActionResult> ProcessCreditResponse(string TransId, string TransAmount, string StatusCode, string AppHash)
-        {
-            string AppId = ConfigurationHelper.GetAppId();
-            string SharedKey = ConfigurationHelper.GetSharedKey();
-
-            if (CreditAuthorizationClient.VerifyServerResponseHash(AppHash, SharedKey, AppId, TransId, TransAmount, StatusCode))
-            {
-                switch (StatusCode)
-                {
-                    case ("A"): ViewBag.TransactionStatus = "Транзакцията е одобрена!"; break;
-                    case ("D"): ViewBag.TransactionStatus = "Транзакцията е отказана!"; break;
-                    case ("C"): ViewBag.TransactionStatus = "Транзакцията е прекратена!"; break;
-                }
-            }
-            else
-            {
-                ViewBag.TransactionStatus = "Грешка при потвърждението.";
-            }
-
-
-            if (StatusCode.Equals("A"))
-            {
-                RegisterViewModel model = (RegisterViewModel)Session["Register"];
-                if (model != null)
-                {
-                    var user = new AppUser { Email = model.Email, UserName = model.UserName, Membership = model.Membership };
-                    var result = await UserManager.CreateAsync(user, model.Password);
-                    if (result.Succeeded)
-                    {
-                        var newUser = UserManager.FindByEmail(model.Email);
-                        var identity = await UserManager.CreateIdentityAsync(newUser, DefaultAuthenticationTypes.ApplicationCookie);
-                        AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = false }, identity);
-
-                        System.Web.HttpContext.Current.Cache.Remove("UserList");
-                        Session["Register"] = null;
-
-                        return RedirectToAction("Index", "Home");
-                    }
-                    else
-                    {
-                        AddErrors(result);
-                    }
-                }
-            }
-
-            return View();
-        }
-
         //
         // GET: /Account/Login
         [AllowAnonymous]

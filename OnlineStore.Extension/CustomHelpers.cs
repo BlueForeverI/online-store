@@ -38,7 +38,7 @@ namespace OnlineStore.Extension
 
         public static string FormattedCurrency(this HtmlHelper html, double value)
         {
-            CultureInfo cultureInfo = new CultureInfo("en-US");
+            CultureInfo cultureInfo = new CultureInfo("bg-BG");
             return string.Format(cultureInfo, "{0:C}", value);
         }
     }

@@ -15,12 +15,12 @@
                         <li>@Html.ActionLink("Смяна на парола", "ChangePassword", "Account", new { area = "" }, null)</li>
                         <li>@Html.ActionLink("Табло", "Index", "Dashboard", new { Area = "Admin" }, null)</li>
                         <li class="nav-divider"></li>
-                        <li>@Html.ActionLink("Потребител", "AppUser", "Account", new { area = "Admin" }, null)</li>
-                        <li>@Html.ActionLink("Роля", "AppRole", "Account", new { area = "Admin" }, null)</li>
+                        <li>@Html.ActionLink("Потребители", "AppUser", "Account", new { area = "Admin" }, null)</li>
+                        <li>@Html.ActionLink("Роли", "AppRole", "Account", new { area = "Admin" }, null)</li>
                         <li class="nav-divider"></li>
-                        <li>@Html.ActionLink("Продукт", "Product", "Store", new { area = "Admin" }, null)</li>
-                        <li>@Html.ActionLink("Категория", "Category", "Store", new { area = "Admin" }, null)</li>
-                        <li>@Html.ActionLink("Поръчка", "Order", "Store", new { area = "Admin" }, null)</li>
+                        <li>@Html.ActionLink("Продукти", "Product", "Store", new { area = "Admin" }, null)</li>
+                        <li>@Html.ActionLink("Категории", "Category", "Store", new { area = "Admin" }, null)</li>
+                        <li>@Html.ActionLink("Поръчки", "Order", "Store", new { area = "Admin" }, null)</li>
                         <li class="nav-divider"></li>
                         <li>@Html.ActionLink("Моята поръчка", "Index", "MyOrder", new { area = "" }, null)</li>
                         <li>@Html.ActionLink("Количка", "Index", "ShoppingCart", new { area = "" }, null)</li>                        
@@ -31,9 +31,8 @@
                         <li>@Html.ActionLink("Смяна на парола", "ChangePassword", "Account", new { area = "" }, null)</li>
                         <li class="nav-divider"></li>
                         <li>@Html.ActionLink("Моите продукти", "MyProducts", "Product", new { area = "" }, null)</li>
-                        <li>@Html.ActionLink("Моите поръчки", "MyProductOrders", "Product", new { area = "" }, null)</li>
                         <li class="nav-divider"></li>
-                        <li>@Html.ActionLink("Моята поръчка", "Index", "MyOrder", new { area = "" }, null)</li>
+                        <li>@Html.ActionLink("Моите поръчки", "Index", "MyOrder", new { area = "" }, null)</li>
                         <li>@Html.ActionLink("Количка", "Index", "ShoppingCart", new { area = "" }, null)</li>
                     }
                     @if (HttpContext.Current.User.IsInRole("Regular"))

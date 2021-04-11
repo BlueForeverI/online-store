@@ -25,7 +25,8 @@ namespace OnlineStore.WebUI.Controllers
                 var orders = _service.GetOrderDTOs();
                 list = orders
                     .Select(o => new OrderViewModel { 
-                        OrderId = o.OrderId, UserId = o.UserId, UserName = o.UserName, FullName = o.FullName, Address = o.Address, City = o.City, State = o.State, Zip = o.Zip, ConfirmationNumber = o.ConfirmationNumber, DeliveryDate = o.DeliveryDate 
+                        OrderId = o.OrderId, UserId = o.UserId, UserName = o.UserName, FullName = o.FullName, Address = o.Address, 
+                        City = o.City, State = o.State, Zip = o.Zip, ConfirmationNumber = o.ConfirmationNumber, DeliveryDate = o.DeliveryDate 
                     }).ToList();
 
 
@@ -34,7 +35,9 @@ namespace OnlineStore.WebUI.Controllers
                     var orderitems = _service.GetOrderItemDTOs(order.OrderId);
                     order.Items = orderitems
                         .Select(o => new OrderItemViewModel { 
-                            OrderItemId = o.OrderId, OrderId = o.OrderId, ProductId = o.ProductId, ProductName = o.ProductName, CategoryId = o.CategoryId, CategoryName = o.CategoryName, Price = o.Price, Image = o.Image, Condition = o.Condition, Discount = o.Discount, Quantity = o.Quantity
+                            OrderItemId = o.OrderId, OrderId = o.OrderId, ProductId = o.ProductId, ProductName = o.ProductName, 
+                            CategoryId = o.CategoryId, CategoryName = o.CategoryName, Price = o.Price, Image = o.Image, Condition = o.Condition, 
+                            Discount = o.Discount, Quantity = o.Quantity
                         }).ToList();
                 }
                 Session["OrderCount"] = orders.Count();
@@ -58,7 +61,7 @@ namespace OnlineStore.WebUI.Controllers
             var order = _service.Get(id);
             if (order == null)
             {
-                ViewBag.Message = string.Format("Поръчка [{0}] не е намерене.", id);
+                ViewBag.Message = string.Format("Поръчка [{0}] не е намеренa.", id);
             }
             else {
                 _service.Delete(id);
