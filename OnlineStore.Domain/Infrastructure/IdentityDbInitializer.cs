@@ -27,15 +27,15 @@ namespace OnlineStore.Domain.Infrastructure
             GetProducts().ForEach(c => context.Products.Add(c));
             context.SaveChanges();
             var hasher = new CustomHasher();
-            var user = new AppUser { UserName = "admin", Email = "admin@gamestore.com", PasswordHash = hasher.HashPassword("admin"), Membership = "Admin", EmailConfirmed = true };
+            var user = new AppUser { UserName = "admin", Email = "admin@store.com", PasswordHash = hasher.HashPassword("admin"), Membership = "Admin", EmailConfirmed = true };
             var role = context.Roles.Where(r => r.Name == "Admin").First();
             user.Roles.Add(new IdentityUserRole { RoleId = role.Id, UserId = user.Id });
             context.Users.Add(user);
-            user = new AppUser { UserName = "regular", Email = "regular@gamestore.com", PasswordHash = hasher.HashPassword("regular"), Membership = "Regular", EmailConfirmed = true };
+            user = new AppUser { UserName = "regular", Email = "regular@store.com", PasswordHash = hasher.HashPassword("regular"), Membership = "Regular", EmailConfirmed = true };
             role = context.Roles.Where(r => r.Name == "Regular").First();
             user.Roles.Add(new IdentityUserRole { RoleId = role.Id, UserId = user.Id });
             context.Users.Add(user);
-            user = new AppUser { UserName = "advanced", Email = "advanced@gamestore.com", PasswordHash = hasher.HashPassword("advanced"), Membership = "Advanced", EmailConfirmed = true };
+            user = new AppUser { UserName = "advanced", Email = "advanced@store.com", PasswordHash = hasher.HashPassword("advanced"), Membership = "Advanced", EmailConfirmed = true };
             role = context.Roles.Where(r => r.Name == "Advanced").First();
             user.Roles.Add(new IdentityUserRole { RoleId = role.Id, UserId = user.Id });
             context.Users.Add(user);
@@ -66,30 +66,41 @@ namespace OnlineStore.Domain.Infrastructure
 
         private static List<Product> GetProducts()
         {
-            var imageUrl = "http://pm1.narvii.com/5994/c99d7523cb8063c40632b259e3d222162961eccf_00.jpg";
             var products = new List<Product> {
-               new Product {Id=1, ProductName="XBox One", CategoryId = 1, Price = 399.00, Image=imageUrl, Condition="Нов", Discount=10, UserId="Admin"},
-               new Product {Id=2, ProductName="XBox 360", CategoryId = 1, Price = 299.00, Image=imageUrl, Condition="Нов", Discount=10, UserId="Admin"},
-               new Product {Id=3, ProductName="PS3", CategoryId = 1, Price = 219.00, Image=imageUrl, Condition="Нов", Discount=10, UserId="Admin"},
-               new Product {Id=4, ProductName="PS4", CategoryId = 1, Price = 349.00, Image=imageUrl, Condition="Нов", Discount=10, UserId="Admin"},
-               new Product {Id=5, ProductName="Wii", CategoryId = 1, Price = 269.00, Image=imageUrl, Condition="Нов", Discount=10, UserId="Admin"},
-               new Product {Id=6, ProductName="WiiU", CategoryId = 1, Price = 299.99, Image=imageUrl, Condition="Нов", Discount=10, UserId="Admin"},
-               new Product {Id=7, ProductName="Xbox Controller", CategoryId = 2, Price = 40.99, Image=imageUrl, Condition="Нов", Discount=10, UserId="Admin"},
-               new Product {Id=8, ProductName="Turtle Beach Headset", CategoryId = 2, Price = 50.00, Image=imageUrl, Condition="Нов", Discount=10, UserId="Admin"},
-               new Product {Id=9, ProductName="Speeding Wheel", CategoryId = 2, Price = 35.99, Image=imageUrl, Condition="Нов", Discount=10, UserId="Admin"},
-               new Product {Id=10, ProductName="Wireless Adapter", CategoryId = 2, Price = 40.99, Image=imageUrl, Condition="Нов", Discount=10, UserId="Admin"},
-               new Product {Id=11, ProductName="Wireless Controller", CategoryId = 2, Price = 19.99, Image=imageUrl, Condition="Нов", Discount=10, UserId="Admin"},
-               new Product {Id=12, ProductName="Disc Remote Control", CategoryId = 2, Price = 23.99, Image=imageUrl, Condition="Нов", Discount=10, UserId="Admin"},
-               new Product {Id=13, ProductName="Chartboost - Black", CategoryId = 2, Price = 18.99, Image=imageUrl, Condition="Нов", Discount=10, UserId="Admin"},
-               new Product {Id=14, ProductName="Dual Controller Charger", CategoryId = 2, Price = 25.99, Image=imageUrl, Condition="Нов", Discount=10, UserId="Admin"},
-               new Product {Id=15, ProductName="Charging System - Black", CategoryId = 2, Price = 25.99, Image=imageUrl, Condition="Нов", Discount=10, UserId="Admin"},
-               new Product {Id=16, ProductName="Wii Remote Plus", CategoryId = 2, Price = 39.99, Image=imageUrl, Condition="Нов", Discount=10, UserId="Admin"},
-               new Product {Id=17, ProductName="Fight Pad", CategoryId = 2, Price = 16.99, Image=imageUrl, Condition="Нов", Discount=10, UserId="Admin"},
-               new Product {Id=18, ProductName="GameCube Controller", CategoryId = 2, Price = 29.99, Image=imageUrl, Condition="Нов", Discount=10, UserId="Admin"},
-               new Product {Id=19, ProductName="FIFA 2016", CategoryId = 3, Price = 59.99, Image=imageUrl, Condition="Нов", Discount=10, UserId="Admin"},
-               new Product {Id=20, ProductName="Need for Speed", CategoryId = 3, Price = 32.99, Image=imageUrl, Condition="Нов", Discount=10, UserId="Admin"},
-               new Product {Id=21, ProductName="Call Of Duty", CategoryId = 3, Price = 36.99, Image=imageUrl, Condition="Нов", Discount=10, UserId="Admin"},
-               new Product {Id=22, ProductName="Evolve", CategoryId = 3, Price = 49.99, Image=imageUrl, Condition="Нов", Discount=10, UserId="Admin"},
+               new Product {ProductName="PlayStation 4 Slim 500GB", CategoryId = 1, Price = 599.00, 
+                   Image="https://cdn.ozone.bg/media/catalog/product/cache/1/image/a4e40ebdc3e371adff845072e1c73f37/s/l/4cd29b5070fd81c5a088b53d8e7bdb2e/playstation-4-slim-500gb-30.jpg", Condition="Нов", Discount=0, UserId="Admin"},
+               new Product {ProductName="Nintendo Switch - Red & Blue", CategoryId = 1, Price = 659.00, 
+                   Image="https://cdn.ozone.bg/media/catalog/product/cache/1/image/a4e40ebdc3e371adff845072e1c73f37/n/e/7efd72daeaba5ddaf05159341651caff/nintendo-switch---red-and-blue-30.jpg", Condition="Нов", Discount=10, UserId="Admin"},
+               new Product {ProductName="XBOX ONE S 1TB", CategoryId = 1, Price = 599.00, 
+                   Image="https://www.technopolis.bg/medias/sys_master/hf1/hea/12108789678110.jpg", Condition="Нов", Discount=10, UserId="Admin"},
+               new Product {ProductName="PlayStation 5", CategoryId = 1, Price = 999.00, 
+                   Image="https://www.technopolis.bg/medias/sys_master/h72/hdb/13551683567646.jpg", Condition="Нов", Discount=0, UserId="Admin"},
+
+               new Product {ProductName="Xbox Controller", CategoryId = 2, Price = 239, 
+                   Image="https://cdn.ozone.bg/media/catalog/product/cache/1/image/a4e40ebdc3e371adff845072e1c73f37/k/o/ba5f8b4ced497edac5d06ad6397a1397/konroler-razer---wolverine-v2--za-xbox-series-x-30.jpg", Condition="Нов", Discount=0, UserId="Admin"},
+               new Product {ProductName="Гейминг слушалки Razer Kraken X - Multi-Platform", CategoryId = 2, Price = 119, 
+                   Image="https://cdn.ozone.bg/media/catalog/product/cache/1/image/a4e40ebdc3e371adff845072e1c73f37/r/a/8b3e1b2b89fa331947375aff7110aa12/geyming-slushalki-razer-kraken-x---multi-platform-30.jpg", Condition="Нов", Discount=34, UserId="Admin"},
+               new Product {ProductName="Гейминг мишка Razer Mamba Elite", CategoryId = 2, Price = 199, 
+                   Image="https://cdn.ozone.bg/media/catalog/product/cache/1/image/a4e40ebdc3e371adff845072e1c73f37/r/a/c3ffee910e3ad051f51a6728e05f07a5/geyming-mishka-razer-mamba-elite-33.jpg", Condition="Нов", Discount=0, UserId="Admin"},
+               new Product {ProductName="Гейминг клавиатура Genesis RHOD 400 RGB -NKG-0873", CategoryId = 2, Price = 45.00, 
+                   Image="https://cdn.ozone.bg/media/catalog/product/cache/1/image/a4e40ebdc3e371adff845072e1c73f37/g/e/52a3eb61d07fbee2087f3b6ac0014395/geyming-klaviatura-genesis-rhod-400-rgb--nkg-0873---mnogotsvetna-podsvetka-31.jpg", Condition="Нов", Discount=0, UserId="Admin"},
+               new Product {ProductName="Гейминг слушалки Razer Kraken Tournament Edition - Green", CategoryId = 2, Price = 199.99, 
+                   Image="https://cdn.ozone.bg/media/catalog/product/cache/1/image/a4e40ebdc3e371adff845072e1c73f37/q/a/bcac3065a39a82a289cf41566b98c1b4/geyming-slushalki-razer-kraken-tournament-edition---green-33.jpg", Condition="Нов", Discount=35, UserId="Admin"},
+               new Product {ProductName="Гейминг подложка Razer - Sphex Mini V2", CategoryId = 2, Price = 19.90, 
+                   Image="https://cdn.ozone.bg/media/catalog/product/cache/1/image/a4e40ebdc3e371adff845072e1c73f37/r/a/4b28523c2d9777bed6f769b1c531c261/geyming-podlozhka-razer---sphex-mini-v2--m--tvarda--mnogotsvetna-31.jpg", Condition="Нов", Discount=0, UserId="Admin"},
+               new Product {ProductName="Волан с педали Logitech - G29, за PC и PS4/PS5", CategoryId = 2, Price = 749.99, 
+                   Image="https://cdn.ozone.bg/media/catalog/product/cache/1/image/a4e40ebdc3e371adff845072e1c73f37/g/2/0bf69b790549e3c6fdc58f4b9cb62053/volan-s-pedali-logitech---g29--za-pc-i-ps4-ps5--cheren-31.jpg", Condition="Нов", Discount=37, UserId="Admin"},
+               new Product {ProductName="Комплект мишка и клавиатура Razer Abyssus Lite", CategoryId = 2, Price = 159.99, 
+                   Image="https://cdn.ozone.bg/media/catalog/product/cache/1/image/a4e40ebdc3e371adff845072e1c73f37/g/a/9c4b507a559deafaaa8a4771bf522a8e/komplekt-mishka-i-klaviatura-razer-abyssus-lite-i-razer-cynosa-lite-31.jpg", Condition="Нов", Discount=48, UserId="Admin"},
+
+               new Product {ProductName="Cyberpunk 2077 - Day One Edition (PS4)", CategoryId = 3, Price = 119.99, 
+                   Image="https://cdn.ozone.bg/media/catalog/product/cache/1/image/a4e40ebdc3e371adff845072e1c73f37/c/p/7824b92c33afc74816e905ff7b108ce0/cyberpunk-2077---day-one-edition-ps4-30.jpg", Condition="Нов", Discount=49, UserId="Admin"},
+               new Product {ProductName="Assassin's Creed Odyssey (PS4)", CategoryId = 3, Price = 59.99, 
+                   Image="https://cdn.ozone.bg/media/catalog/product/cache/1/image/a4e40ebdc3e371adff845072e1c73f37/a/s/2b73fd848e8aac621dea3fc76f950a77/assassin-s-creed-odyssey-ps4-30.jpg", Condition="Нов", Discount=33, UserId="Admin"},
+               new Product {ProductName="Doom Eternal (PS4)", CategoryId = 3, Price = 119.99, 
+                   Image="https://cdn.ozone.bg/media/catalog/product/cache/1/image/a4e40ebdc3e371adff845072e1c73f37/d/o/dfb4efa7f9c40ef0d4b3d51408255cec/doom-eternal-ps4-30.jpg", Condition="Нов", Discount=55, UserId="Admin"},
+               new Product {ProductName="Grand Theft Auto V - Premium Edition (PS4)", CategoryId = 3, Price = 59.99, 
+                   Image="https://cdn.ozone.bg/media/catalog/product/cache/1/image/a4e40ebdc3e371adff845072e1c73f37/g/t/f9d05fbef6de6f819dfda7df869e7000/grand-theft-auto-v---premium-edition-ps4-30.jpg", Condition="Нов", Discount=33, UserId="Admin"},
             };
 
             return products;
