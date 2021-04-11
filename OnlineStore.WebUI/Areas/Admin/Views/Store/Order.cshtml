@@ -62,7 +62,7 @@
             $.getJSON("/api/Order/", function (data) {
                 $.each(data, function (i, order) {
                     $('#modelList tbody').append("<tr><td>" +
-                        order.Id + "</td><td>" + order.UserName + "</td><td>" +
+                        order.OrderId + "</td><td>" + order.UserName + "</td><td>" +
                         order.Address + "</td><td>" + order.ConfirmationNumber +
                         "</td><td>" + order.DeliveryDate +
                         "</td><td><span><a class='btn btn-info' href='javascript:detailModel(\"" +

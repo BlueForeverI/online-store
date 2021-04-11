@@ -82,7 +82,7 @@ namespace OnlineStore.Services
                             where o.Id == orderId
                             select new { o.Id, o.UserId, u.UserName, o.FullName, o.Address, o.City, o.State, o.Zip, o.ConfirmationNumber, o.DeliveryDate };
                 var ord = order.FirstOrDefault();
-                return new OrderViewModel { OrderId = ord.Id, UserId = ord.UserId, UserName = ord.UserName, FullName = ord.FullName, Address = ord.Address, City = ord.City, State = ord.State, Zip = ord.Zip, ConfirmationNumber = ord.ConfirmationNumber, DeliveryDate = ord.DeliveryDate };
+                return new OrderViewModel { OrderId = ord.Id, UserId = ord.UserId, UserName = ord.UserName, FullName = ord.FullName, Address = ord.Address, City = ord.City, Zip = ord.Zip, ConfirmationNumber = ord.ConfirmationNumber, DeliveryDate = ord.DeliveryDate };
             }
         }
 

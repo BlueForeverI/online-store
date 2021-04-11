@@ -70,7 +70,7 @@ namespace OnlineStore.WebUI.Controllers
             if (cart == null)
             {
                 ViewBag.Message = "Количката ви е празна!";
-                return View("Index", "ShoppingCart");
+                return View("Checkout", "ShoppingCart");
             }
 
             if (!ModelState.IsValid)

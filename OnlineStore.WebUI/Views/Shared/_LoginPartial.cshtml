@@ -22,7 +22,7 @@
                         <li>@Html.ActionLink("Категории", "Category", "Store", new { area = "Admin" }, null)</li>
                         <li>@Html.ActionLink("Поръчки", "Order", "Store", new { area = "Admin" }, null)</li>
                         <li class="nav-divider"></li>
-                        <li>@Html.ActionLink("Моята поръчка", "Index", "MyOrder", new { area = "" }, null)</li>
+                        <li>@Html.ActionLink("Моите поръчки", "Index", "MyOrder", new { area = "" }, null)</li>
                         <li>@Html.ActionLink("Количка", "Index", "ShoppingCart", new { area = "" }, null)</li>                        
                     }
                     @if (HttpContext.Current.User.IsInRole("Advanced"))

@@ -26,7 +26,7 @@ namespace OnlineStore.WebUI.Controllers
                 list = orders
                     .Select(o => new OrderViewModel { 
                         OrderId = o.OrderId, UserId = o.UserId, UserName = o.UserName, FullName = o.FullName, Address = o.Address, 
-                        City = o.City, State = o.State, Zip = o.Zip, ConfirmationNumber = o.ConfirmationNumber, DeliveryDate = o.DeliveryDate 
+                        City = o.City, Zip = o.Zip, ConfirmationNumber = o.ConfirmationNumber, DeliveryDate = o.DeliveryDate 
                     }).ToList();
 
 
