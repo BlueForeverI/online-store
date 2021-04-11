@@ -61,11 +61,6 @@ namespace OnlineStore.WebUI.Controllers
         public ActionResult Checkout()
         {
             CheckoutViewModel checkout = new CheckoutViewModel();
-            checkout.FullName = "Петър Петров";
-            checkout.Address = "ж-к Люлин";
-            checkout.City = "София";
-            checkout.Zip = "1000";
-            ViewBag.States = State.List();
             return View(checkout);
         }
 

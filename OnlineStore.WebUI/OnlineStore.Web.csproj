@@ -287,7 +287,6 @@
     <Compile Include="Helper\CreditAuthorizationClient.cs" />
     <Compile Include="Models\CartItem.cs" />
     <Compile Include="Models\ShoppingCart.cs" />
-    <Compile Include="Models\State.cs" />
     <Compile Include="Areas\Admin\Models\UserViewModel.cs" />
     <Compile Include="Areas\Admin\Models\ProductViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
